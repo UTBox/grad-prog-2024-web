@@ -1,0 +1,44 @@
+:root{
+  width: 30vw;
+}
+.sidebar-container{
+  width: 30vw;
+  background-color: lightgrey;
+  height: 98.5vh;
+  position: fixed;
+  margin: 0;
+  border-radius: 6px;
+  border: 1px solid dimgray;
+}
+.user-select-container{
+  margin-top: 5vh;
+  margin-left: 2vw;
+  width: fit-content;
+}
+.user-select-container label{
+  display: block;
+  font-size: larger;
+}
+.user-select-container select{
+  width: 15vw;
+  font-size: large;
+}
+
+.sidebar-nav-group{
+  margin-top: 5vh;
+  margin-left: 2vw;
+}
+.sidebar-nav-group h2{
+  margin: 0;
+  margin-bottom: 1rem;
+}
+.sidebar-nav-group a{
+  display: block;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 0.25rem
+}
+
+.content{
+  margin-left: 32vw;
+}
