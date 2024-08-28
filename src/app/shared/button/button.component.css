@@ -1,0 +1,33 @@
+button{
+  background: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:disabled{
+  cursor: auto;
+}
+
+.primary{
+  border: 2px solid gray;
+  padding: 0.5rem 2rem;
+}
+.danger{
+  border: 2px solid red;
+  padding: 0.5rem 2rem;
+  color: red;
+}
+.mini{
+  border: 2px solid gray;
+  padding: 0.25rem 0.5rem;
+}
+
+.primary:hover:enabled{
+  box-shadow: 0 0 5px darkgray;
+}
+.danger:hover:enabled{
+  box-shadow: 0 0 5px darkred;
+}
+.mini:hover:enabled{
+  box-shadow: 0 0 5px darkgray;
+}
+
