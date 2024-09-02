@@ -1,9 +1,11 @@
 <div class="sidebar-container">
   <div class="user-select-container">
     <label for="user-select">Select user</label>
-    <select id="user-select">
-      <option>Admin</option>
-      <option>Manager</option>
+    <select id="user-select" [formControl]="selectedUser" (change)="handleChangeUser()">
+      <option [ngValue]="defaultUser" disabled>-- select a user --</option>
+      @for(user of users; track $index){
+        <option [ngValue]="user">{{user.firstName}} {{user.lastName}} ({{user.role}})</option>
+      }
     </select>
   </div>
   <div class="sidebar-nav-group">

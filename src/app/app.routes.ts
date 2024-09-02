@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import {WelcomeComponent} from "./welcome/welcome.component";
-import {UnauthorizedComponent} from "./unauthorized/unauthorized.component";
-import {hasRoleGuard} from "./has-role.guard";
-import {Role} from "./role";
+import {UnauthorizedComponent} from "./authorization/unauthorized/unauthorized.component";
+import {hasRoleGuard} from "./authorization/has-role.guard";
+import {Role} from "./authorization/role";
 
 export const routes: Routes = [
   {path: 'unauthorized', component: UnauthorizedComponent},
