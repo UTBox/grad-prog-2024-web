@@ -24,9 +24,6 @@ export default class LeaveService {
     if(managerId != null){
       url += `&manager=${managerId}`
     }
-
-    console.log(managerId)
-    console.log(url)
     return this.httpClient.get<PageResponse<IManagerialLeave>>(url);
   }
   updateLeave(id:number, requestBody:IUpdateLeaveRequest){
