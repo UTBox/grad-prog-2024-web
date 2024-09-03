@@ -23,11 +23,19 @@ button:disabled{
 .no-style{
   border: none;
 }
+.danger-mini{
+  padding: 0.25rem 0.5rem;
+  color: red;
+  border: 2px solid red;
+}
 
 .primary:hover:enabled{
   box-shadow: 0 0 5px darkgray;
 }
 .danger:hover:enabled{
+  box-shadow: 0 0 5px darkred;
+}
+.danger-mini:hover:enabled{
   box-shadow: 0 0 5px darkred;
 }
 .mini:hover:enabled{
