@@ -42,7 +42,7 @@ export class SidebarComponent implements OnInit{
     {
       label: "Employees",
       pages: [
-        {label: "View all", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: "leaves/all"},
+        {label: "View all", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: ""},
         {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: ""},
       ],
       allowedRoles: [Role.MANAGER, Role.HR_ADMIN]
@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit{
     {
       label: "Leaves",
       pages: [
-        {label: "Apply", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
+        {label: "Apply", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: "leaves/all"},
         {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
         {label: "View All", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: ""},
       ],
