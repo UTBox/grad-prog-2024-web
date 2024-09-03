@@ -42,10 +42,10 @@ export class SidebarComponent implements OnInit{
     {
       label: "Employees",
       pages: [
-        {label: "View all", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: ""},
+        {label: "View all", allowedRoles: [Role.HR_ADMIN], link: "employees/all"},
         {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: ""},
       ],
-      allowedRoles: [Role.MANAGER, Role.HR_ADMIN]
+      allowedRoles: [Role.HR_ADMIN]
     },
     {
       label: "Leaves",
