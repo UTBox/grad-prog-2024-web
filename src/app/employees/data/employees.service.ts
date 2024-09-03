@@ -15,6 +15,11 @@ export default class EmployeesService {
     });
   }
 
+  getPaginatedEmployees(max:number, page:number){
+    const url = `${this.baseUrl}?max=${max}&page=${page}`
+    return this.httpClient.get<any>(url)
+  }
+
   getEmployeeList(nameFilter:string|null){
     const url = `api/v1/list/employee`
     return this.httpClient.get<any>(url);
