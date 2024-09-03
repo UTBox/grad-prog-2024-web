@@ -11,5 +11,6 @@ export class AuthService {
   ) {}
 
   getUserRole(): Role{
+    return <Role> sessionStorage.getItem("selectedUserRole")
   }
 }
