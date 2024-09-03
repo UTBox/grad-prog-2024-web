@@ -3,7 +3,6 @@ import {RouterOutlet} from "@angular/router";
 import {Role} from "../authorization/role";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
-import {LocalStorageService} from "../shared/local-storage.service";
 
 interface User{
   id:number
@@ -56,18 +55,11 @@ export class SidebarComponent implements OnInit{
 
   constructor(
     private userObservable:UserObservable,
-    private localStorage:LocalStorageService
   ) {}
 
   ngOnInit() {
-    let storedUserId = localStorage.getItem("userId");
-    let storedUser = this.users.find(u => u.id === Number(storedUserId))
-    this.selectedUser.setValue(storedUser ?? this.defaultUser)
   }
 
   public handleChangeUser(){
-    localStorage.setItem('role', this.selectedUser.getRawValue()?.role.toString() ?? "")
-    localStorage.setItem('userId', this.selectedUser.getRawValue()?.id.toString() ?? "")
-    window.location.reload();
   }
 }
