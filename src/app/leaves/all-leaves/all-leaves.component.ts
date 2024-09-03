@@ -27,19 +27,12 @@ import {Role} from "../../authorization/role";
 export class AllLeavesComponent implements OnInit{
   public isLoading = true
   public leaves!: PageResponse<IManagerialLeave>;
-  private headers = [
-    "Applied By",
-    "Manager",
-    "Start",
-    "End",
-    "Days"
-  ]
 
   private max = 5
   public currentPage = 0
   public totalPages = 0
 
-  public selectedUserRole = "HR"
+  public selectedUserRole!:Role
   private userId!:number
   protected readonly ButtonType = ButtonType;
 
@@ -51,42 +44,9 @@ export class AllLeavesComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.initializeSelectedUserData()
-    this.getQueryParams()
-    this.initializeData()
+    this.initializePage()
   }
 
-  public buildTableHeader(): String[]{
-    if(this.selectedUserRole == "MANAGER"){
-      return this.headers.filter(h => h != "Manager")
-    }
-    return this.headers
-  }
-
-  public buildTableContent(): String[][]{
-    if(this.leaves === undefined){
-      return [];
-    }
-
-    if(this.selectedUserRole == "MANAGER"){
-      return this.leaves.content.map(l => ([
-        l.id.toString(),
-        l.employeeName,
-        l.startDate.toString(),
-        l.endDate.toString(),
-        l.workDays.toString()
-      ]))
-    }
-
-    return this.leaves.content.map(l => ([
-      l.id.toString(),
-      l.employeeName,
-      l.managerName,
-      l.startDate.toString(),
-      l.endDate.toString(),
-      l.workDays.toString()
-    ]))
-  }
 
   public handleApproveLeave(id:number){
     let toUpdate:IUpdateLeaveRequest = {
@@ -94,7 +54,7 @@ export class AllLeavesComponent implements OnInit{
     }
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
-      console.log(data)
+      this.initializeData()
     },error: (err)=>{
       console.log(err)
     } })
@@ -105,7 +65,7 @@ export class AllLeavesComponent implements OnInit{
     }
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
-        console.log(data)
+        this.initializeData()
       },error: (err)=>{
         console.log(err)
       } })
@@ -123,6 +83,13 @@ export class AllLeavesComponent implements OnInit{
     this.location.go(this.location.path().split('?')[0], params.toString());
   }
 
+  private async initializePage(){
+    this.initializeSelectedUserData()
+    this.getQueryParams()
+    await this.initializeData()
+    this.isLoading = false
+  }
+
   private getQueryParams(){
     this.route.queryParams.subscribe(params => {
       if(isNaN(Number(params['page']))){
@@ -130,7 +97,6 @@ export class AllLeavesComponent implements OnInit{
         return;
       }
       this.currentPage = Number(params['page']);
-      console.log("here", this.currentPage, params['page'])
     });
   }
 

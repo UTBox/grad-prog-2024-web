@@ -1,53 +1,55 @@
 <h2>All Leaves</h2>
 <main>
+    @if(!isLoading){
 
-  <table>
-    <colgroup>
-      <col style="width: 20%"/>
-      @if(selectedUserRole != "MANAGER"){<col style="width: 20%"/>}
-      <col style="width: 15%"/>
-      <col style="width: 15%"/>
-      <col style="width: 5%"/>
-      <col style="width: 15%"/>
-    </colgroup>
-    <thead>
-      <tr>
-        <th>Applied By</th>
-        @if(selectedUserRole != "MANAGER"){<th>Manager</th>}
-        <th>Start</th>
-        <th>End</th>
-        <th>Days</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    @if(leaves.content.length > 0){
-      @for (row of leaves.content; track row.id){
-        <tr>
-          <td> <b>{{row.employeeName}}</b> </td>
-          @if(selectedUserRole != "MANAGER"){<td>{{row.managerName}}</td>}
-          <td><p class="text-center">{{row.startDate | date}}</p></td>
-          <td><p class="text-center">{{row.endDate | date}}</p></td>
-          <td><p class="text-center">{{row.workDays}}</p></td>
-          <td>
-            <div class="actions-cell">
-              <app-button [type]="ButtonType.MINI" (clickAction)="handleApproveLeave(row.id)" >Approve</app-button>
-              <app-button [type]="ButtonType.MINI" (clickAction)="handleRejectLeave(row.id)" >Reject</app-button>
-            </div>
+      <table>
+        <colgroup>
+          <col style="width: 20%"/>
+          @if(selectedUserRole != "MANAGER"){<col style="width: 20%"/>}
+          <col style="width: 15%"/>
+          <col style="width: 15%"/>
+          <col style="width: 5%"/>
+          <col style="width: 15%"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Applied By</th>
+            @if(selectedUserRole != "MANAGER"){<th>Manager</th>}
+            <th>Start</th>
+            <th>End</th>
+            <th>Days</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        @if(leaves.content.length > 0){
+          @for (row of leaves.content; track row.id){
+            <tr>
+              <td> <b>{{row.employeeName}}</b> </td>
+              @if(selectedUserRole != "MANAGER"){<td>{{row.managerName}}</td>}
+              <td><p class="text-center">{{row.startDate | date}}</p></td>
+              <td><p class="text-center">{{row.endDate | date}}</p></td>
+              <td><p class="text-center">{{row.workDays}}</p></td>
+              <td>
+                <div class="actions-cell">
+                  <app-button [type]="ButtonType.MINI" (clickAction)="handleApproveLeave(row.id)" >Approve</app-button>
+                  <app-button [type]="ButtonType.MINI" (clickAction)="handleRejectLeave(row.id)" >Reject</app-button>
+                </div>
+              </td>
+            </tr>
+          }
+        } @else {
+          <td [colSpan]="selectedUserRole != 'MANAGER'? 6:5">
+            <p class="text-center"> No content </p>
           </td>
-        </tr>
-      }
-    } @else {
-      <td [colSpan]="selectedUserRole != 'MANAGER'? 6:5">
-        <p class="text-center"> No content </p>
-      </td>
-    }
-    </tbody>
+        }
+        </tbody>
 
-  </table>
-  <app-pagination
-    [currentPage]="currentPage"
-    [totalPages]="totalPages"
-    (changePageAction)="handleChangePage($event)"
-  />
+      </table>
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (changePageAction)="handleChangePage($event)"
+      />
+    }
 </main>
