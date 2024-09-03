@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import PageResponse from "../../shared/page-response";
 import IManagerialLeave from "../model/managerial-leave.model";
 import {Injectable} from "@angular/core";
+import ICreateLeave from "../model/create-leave.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,13 @@ export default class LeaveService {
   getAllLeaves(max:number, page:number){
     const url = `${this.baseUrl}?max=${max}&page=${page}`;
     return this.httpClient.get<PageResponse<IManagerialLeave>>(url);
+  }
+
+  createLeave(
+    leaveRequest: ICreateLeave
+  ) {
+    const url = `${this.baseUrl}`;
+    return this.httpClient.post(url, leaveRequest);
   }
 }
 
