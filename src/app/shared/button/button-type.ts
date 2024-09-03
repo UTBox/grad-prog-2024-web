@@ -1,5 +1,6 @@
 export enum ButtonType{
   PRIMARY = "primary",
   DANGER = "danger",
-  MINI = "mini"
+  MINI = "mini",
+  NO_STYLE="no-style"
 }

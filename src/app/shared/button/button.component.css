@@ -20,6 +20,9 @@ button:disabled{
   border: 2px solid gray;
   padding: 0.25rem 0.5rem;
 }
+.no-style{
+  border: none;
+}
 
 .primary:hover:enabled{
   box-shadow: 0 0 5px darkgray;
