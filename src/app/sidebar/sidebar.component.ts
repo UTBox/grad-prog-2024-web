@@ -5,8 +5,19 @@ import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
 import EmployeeService from "../employees/data/employee.service";
 import {lastValueFrom} from "rxjs";
-import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
 import User from "../authorization/user.model";
+
+interface Page{
+  label:string
+  allowedRoles: Role[]
+  link: string
+}
+interface PageGroup{
+  label: string
+  pages: Page[]
+  allowedRoles: Role[]
+}
+
 
 @Component({
   selector: 'app-sidebar',
@@ -25,10 +36,31 @@ export class SidebarComponent implements OnInit{
       name: "",
       role: Role.NONE
     }
-
   public users!:User[]
 
+  public pages:PageGroup[] = [
+    {
+      label: "Employees",
+      pages: [
+        {label: "View all", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: "leaves/all"},
+        {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: ""},
+      ],
+      allowedRoles: [Role.MANAGER, Role.HR_ADMIN]
+    },
+    {
+      label: "Leaves",
+      pages: [
+        {label: "Apply", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
+        {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
+        {label: "View All", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: ""},
+      ],
+      allowedRoles: [Role.MANAGER, Role.HR_ADMIN, Role.EMPLOYEE]
+    }
+  ]
+
   public selectedUser = new FormControl<User>(this.defaultUser);
+
+  public storedRole!:Role
 
   constructor(
     private userObservable:UserObservable,
@@ -64,7 +96,7 @@ export class SidebarComponent implements OnInit{
 
   private initializeSelectedUser(){
     let storedUserId = sessionStorage.getItem("userId")
-    let storedRole = sessionStorage.getItem("selectedUserRole")
+    this.storedRole = <Role> sessionStorage.getItem("selectedUserRole")
     let storedUser = this.users.find(u => u.id === Number(storedUserId))
 
     this.selectedUser.setValue(storedUser ?? this.defaultUser)
