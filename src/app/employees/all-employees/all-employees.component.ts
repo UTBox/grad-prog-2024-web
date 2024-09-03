@@ -7,6 +7,7 @@ import PageResponse from "../../shared/page-response";
 import {lastValueFrom} from "rxjs";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {ButtonType} from "../../shared/button/button-type";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-all-employees',
@@ -32,17 +33,12 @@ export class AllEmployeesComponent implements OnInit{
 
   constructor(
     private employeesService:EmployeesService,
-    private location:Location
+    private location:Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.initializeData()
-  }
-
-  public setPageParams(page: number){
-    let params = new HttpParams();
-    params = params.append("page", page);
-    this.location.go(this.location.path().split('?')[0], params.toString());
+    this.initializePage()
   }
 
   public handleChangePage(page:number){
@@ -51,10 +47,31 @@ export class AllEmployeesComponent implements OnInit{
     this.initializeData()
   }
 
+  private async initializePage(){
+    this.getQueryParams()
+    await this.initializeData()
+    this.isLoading = false
+  }
+
   private async initializeData(){
     this.employees = await lastValueFrom(this.employeesService.getPaginatedEmployees(this.max, this.currentPage))
     this.totalPages = this.employees.totalPages
-    this.isLoading = false
+  }
+
+  private setPageParams(page: number){
+    let params = new HttpParams();
+    params = params.append("page", page);
+    this.location.go(this.location.path().split('?')[0], params.toString());
+  }
+
+  private getQueryParams(){
+    this.route.queryParams.subscribe(params => {
+      if(isNaN(Number(params['page']))){
+        this.setPageParams(1);
+        return;
+      }
+      this.currentPage = Number(params['page']);
+    });
   }
 
 }
