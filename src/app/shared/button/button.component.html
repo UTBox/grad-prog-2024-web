@@ -1,6 +1,7 @@
 <button
   [ngClass]="type.toString()"
   [disabled]="isDisabled"
+  (click)="onClick()"
 >
   <ng-content></ng-content>
 </button>
