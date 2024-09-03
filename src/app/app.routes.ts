@@ -16,6 +16,11 @@ export const routes: Routes = [
     }
   },
   {path: "leaves", children: [
-      {path: "", component: AllLeavesComponent}
+      {
+        path: "",
+        component: AllLeavesComponent,
+        canActivate: [hasRoleGuard],
+        data: {roles: [Role.HR_ADMIN, Role.MANAGER]}
+      }
     ]},
 ];

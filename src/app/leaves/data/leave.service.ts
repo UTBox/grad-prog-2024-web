@@ -18,8 +18,15 @@ export default class LeaveService {
     });
   }
 
-  getAllLeaves(max:number, page:number){
-    const url = `${this.baseUrl}?max=${max}&page=${page}`;
+  getAllPendingLeaves(max:number, page:number, managerId:number|null){
+
+    let url = `${this.baseUrl}?max=${max}&page=${page}&status=PENDING`;
+    if(managerId != null){
+      url += `&manager=${managerId}`
+    }
+
+    console.log(managerId)
+    console.log(url)
     return this.httpClient.get<PageResponse<IManagerialLeave>>(url);
   }
   updateLeave(id:number, requestBody:IUpdateLeaveRequest){

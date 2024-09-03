@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit{
     sessionStorage.setItem('userId', this.selectedUser.getRawValue()?.id.toString() ?? "")
 
     console.log(sessionStorage.getItem('selectedUserRole'))
-    // window.location.reload();
+    window.location.reload();
   }
 
   private async initializePage(){

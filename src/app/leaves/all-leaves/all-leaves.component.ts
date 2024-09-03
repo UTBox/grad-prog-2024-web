@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {TableComponent} from "../../shared/table/table.component";
 import PageResponse from "../../shared/page-response";
 import IManagerialLeave from "../model/managerial-leave.model";
 import LeaveService from "../data/leave.service";
 import {lastValueFrom} from "rxjs";
-import ITableAction from "../../shared/table/table-action.model";
 import {HttpParams} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe, Location} from "@angular/common";
@@ -13,12 +11,12 @@ import {ButtonComponent} from "../../shared/button/button.component";
 import {ButtonType} from "../../shared/button/button-type";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
+import {Role} from "../../authorization/role";
 
 @Component({
   selector: 'app-all-leaves',
   standalone: true,
   imports: [
-    TableComponent,
     PaginationComponent,
     ButtonComponent,
     DatePipe
@@ -37,16 +35,13 @@ export class AllLeavesComponent implements OnInit{
     "Days"
   ]
 
-  public actions: ITableAction[] = [
-    {label: "Approve", onClick:this.handleApproveLeave},
-    {label: "Reject", onClick:this.handleRejectLeave}
-  ]
-
   private max = 5
   public currentPage = 0
   public totalPages = 0
 
-  public userRole = "HR"
+  public selectedUserRole = "HR"
+  private userId!:number
+  protected readonly ButtonType = ButtonType;
 
   constructor(
     private leaveService:LeaveService,
@@ -56,12 +51,13 @@ export class AllLeavesComponent implements OnInit{
   ) {}
 
   ngOnInit() {
+    this.initializeSelectedUserData()
     this.getQueryParams()
     this.initializeData()
   }
 
   public buildTableHeader(): String[]{
-    if(this.userRole == "MANAGER"){
+    if(this.selectedUserRole == "MANAGER"){
       return this.headers.filter(h => h != "Manager")
     }
     return this.headers
@@ -72,7 +68,7 @@ export class AllLeavesComponent implements OnInit{
       return [];
     }
 
-    if(this.userRole == "MANAGER"){
+    if(this.selectedUserRole == "MANAGER"){
       return this.leaves.content.map(l => ([
         l.id.toString(),
         l.employeeName,
@@ -139,11 +135,16 @@ export class AllLeavesComponent implements OnInit{
   }
 
   private async initializeData(){
-    this.leaves = await lastValueFrom(this.leaveService.getAllLeaves(this.max, this.currentPage))
-    console.log(this.leaves)
+
+    let managerId = this.selectedUserRole == Role.MANAGER? this.userId : null
+
+    this.leaves = await lastValueFrom(this.leaveService.getAllPendingLeaves(this.max, this.currentPage, managerId))
     this.totalPages = this.leaves.totalPages
     this.isLoading = false
   }
 
-  protected readonly ButtonType = ButtonType;
+  private initializeSelectedUserData(){
+    this.userId = Number(sessionStorage.getItem('userId'))
+    this.selectedUserRole = <Role> sessionStorage.getItem("selectedUserRole")
+  }
 }
