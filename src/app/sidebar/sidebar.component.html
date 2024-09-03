@@ -4,7 +4,7 @@
     <select id="user-select" [formControl]="selectedUser" (change)="handleChangeUser()">
       <option [ngValue]="defaultUser" disabled>-- select a user --</option>
       @for(user of users; track $index){
-        <option [ngValue]="user">{{user.firstName}} {{user.lastName}} ({{user.role}})</option>
+        <option [ngValue]="user">{{user.name}} ({{user.role}})</option>
       }
     </select>
   </div>

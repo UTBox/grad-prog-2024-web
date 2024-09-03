@@ -6,13 +6,7 @@ import {UserObservable} from "../authorization/observable/user-observable";
 import EmployeeService from "../employees/data/employee.service";
 import {lastValueFrom} from "rxjs";
 import {compareSegments} from "@angular/compiler-cli/src/ngtsc/sourcemaps/src/segment_marker";
-
-interface User{
-  id:number
-  firstName:string
-  lastName:string
-  role:Role
-}
+import User from "../authorization/user.model";
 
 @Component({
   selector: 'app-sidebar',
@@ -28,8 +22,7 @@ interface User{
 export class SidebarComponent implements OnInit{
   public defaultUser:User = {
       id: 0,
-      firstName: "",
-      lastName: "",
+      name: "",
       role: Role.NONE
     }
 
