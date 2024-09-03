@@ -8,18 +8,32 @@
       }
     </select>
   </div>
-  <div class="sidebar-nav-group">
-    <h2>Employees</h2>
-    <a href="">View All</a>
-    <a href="">Add New</a>
-  </div>
-  <div class="sidebar-nav-group">
-    <h2>Leaves</h2>
-    <a href="">Apply</a>
-    <a href="">My Leaves</a>
-    <a href="">View All</a>
-  </div>
-</div>
+
+  @for(group of pages; track $index){
+    @if(group.allowedRoles.includes(storedRole)){
+      <div class="sidebar-nav-group">
+        <h2>{{group.label}}</h2>
+        @for(subpage of group.pages; track $index){
+          @if(subpage.allowedRoles.includes(storedRole)){
+            <a [href]="subpage.link">{{subpage.label}}</a>
+          }
+        }
+      </div>
+    }
+  }
+
+<!--  <div class="sidebar-nav-group">-->
+<!--    <h2>Employees</h2>-->
+<!--    <a href="">View All</a>-->
+<!--    <a href="">Add New</a>-->
+<!--  </div>-->
+<!--  <div class="sidebar-nav-group">-->
+<!--    <h2>Leaves</h2>-->
+<!--    <a href="">Apply</a>-->
+<!--    <a href="">My Leaves</a>-->
+<!--    <a href="">View All</a>-->
+<!--  </div>-->
+<!--</div>-->
 
 <div class="content">
   <router-outlet></router-outlet>
