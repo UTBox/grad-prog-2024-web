@@ -1,0 +1,11 @@
+.pagination-container{
+  margin-top: 1rem;
+}
+.page-text{
+  display: inline;
+  font-size: smaller;
+}
+.page-buttons{
+  display: inline;
+  float: right;
+}
