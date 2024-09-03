@@ -1,0 +1,28 @@
+main{
+  width: 90%;
+}
+
+table{
+  border: 1px solid gray;
+  border-radius: 6px;
+  margin-top: 1em;
+  width: 100%;
+  border-spacing: 0;
+}
+
+td, th{
+  padding: 0.5rem 1rem;
+  /*border: none;*/
+}
+thead{
+  border-collapse: separate;
+  background-color: lightgrey;
+  line-height: 2rem;
+}
+tbody tr{
+  line-height: 1.5rem;
+}
+
+.float-right{
+  float: right;
+}

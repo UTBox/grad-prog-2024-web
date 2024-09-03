@@ -4,6 +4,7 @@ import {UnauthorizedComponent} from "./authorization/unauthorized/unauthorized.c
 import {hasRoleGuard} from "./authorization/has-role.guard";
 import {Role} from "./authorization/role";
 import {AllLeavesComponent} from "./leaves/all-leaves/all-leaves.component";
+import {AllEmployeesComponent} from "./employees/all-employees/all-employees.component";
 
 export const routes: Routes = [
   {path: 'unauthorized', component: UnauthorizedComponent},
@@ -22,5 +23,13 @@ export const routes: Routes = [
         canActivate: [hasRoleGuard],
         data: {roles: [Role.HR_ADMIN, Role.MANAGER]}
       }
-    ]},
+  ]},
+  {path: "employees", children: [
+      {
+        path: "all",
+        component: AllEmployeesComponent,
+        canActivate: [hasRoleGuard],
+        data: {roles: [Role.HR_ADMIN]}
+      }
+  ]}
 ];

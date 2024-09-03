@@ -3,7 +3,7 @@ import {RouterOutlet} from "@angular/router";
 import {Role} from "../authorization/role";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
-import EmployeeService from "../employees/data/employee.service";
+import EmployeesService from "../employees/data/employees.service";
 import {lastValueFrom} from "rxjs";
 import User from "../authorization/user.model";
 
@@ -42,10 +42,10 @@ export class SidebarComponent implements OnInit{
     {
       label: "Employees",
       pages: [
-        {label: "View all", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: ""},
+        {label: "View all", allowedRoles: [Role.HR_ADMIN], link: "employees/all"},
         {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: ""},
       ],
-      allowedRoles: [Role.MANAGER, Role.HR_ADMIN]
+      allowedRoles: [Role.HR_ADMIN]
     },
     {
       label: "Leaves",
@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit{
 
   constructor(
     private userObservable:UserObservable,
-    private employeeService:EmployeeService
+    private employeesService:EmployeesService
   ) {}
 
   ngOnInit() {
@@ -85,7 +85,7 @@ export class SidebarComponent implements OnInit{
   }
 
   private async initializeUserList(){
-    const userListResponse = await lastValueFrom(this.employeeService.getEmployeeList(null))
+    const userListResponse = await lastValueFrom(this.employeesService.getEmployeeList(null))
     this.users = JSON.parse(sessionStorage.getItem('users') ?? "[]")
 
     if(userListResponse != this.users){
