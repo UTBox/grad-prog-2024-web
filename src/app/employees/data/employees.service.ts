@@ -22,8 +22,11 @@ export default class EmployeesService {
     return this.httpClient.get<any>(url);
   }
 
-  getEmployeeList(nameFilter: string | null) {
-    const url = `api/v1/list/employee`;
+  getEmployeeList(name: string = "") {
+    let url = `api/v1/list/employee`;
+    if(name.length>0){
+      url += `?name=${name}`
+    }
     return this.httpClient.get<any>(url);
   }
 
