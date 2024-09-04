@@ -1,0 +1,44 @@
+.employee-form {
+  width: 40rem;
+  padding: 1rem;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.form-group label {
+  font-size: 20px;
+}
+
+.form-group input, .form-group select {
+  width: 70%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.form-actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.form-actions app-button:nth-child(2) {
+  margin-left: 1rem;
+}
+
+input.ng-invalid.ng-dirty,
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-dirty,
+select.ng-invalid.ng-touched {
+  border-color: red;
+  color: red;
+}
+
+.help-block {
+  color: red;
+  margin-left: 11.5rem;
+}

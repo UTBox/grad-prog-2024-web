@@ -1,0 +1,54 @@
+<form
+  class="employee-form"
+  [formGroup]="editEmployeeForm"
+  (ngSubmit)="onSubmit()"
+>
+  <h2>Edit Employee</h2>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input id="firstName" type="text" formControlName="firstName" readonly/>
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" type="text" formControlName="lastName" />
+  </div>
+
+  <div class="form-group">
+    <label for="role">Role</label>
+    <input id="role" type="text" formControlName="role" />
+  </div>
+
+  <div class="form-group">
+    <label for="manager">Manager</label>
+    <input
+      id="manager"
+      type="text"
+      formControlName="managerId"
+      value="{{ managerName }}"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="totalLeaves">Total Leaves</label>
+    <input id="totalLeaves" type="text" formControlName="totalLeaves" />
+  </div>
+  @if (isFormControlInvalid('totalLeaves')) {
+  <span class="help-block">
+    @if(editEmployeeForm.get('totalLeaves')?.hasError('required')){
+    <small>Total leaves is required</small>
+    } @if(editEmployeeForm.get('totalLeaves')?.hasError('pattern')){
+    <small>Total leaves must be a positive integer</small>
+    }
+  </span>
+  }
+
+  <div class="form-actions">
+    <app-button [style]="ButtonStyle.DANGER" [routerLink]="'/'"
+      >Cancel</app-button
+    >
+    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY"
+      >Submit</app-button
+    >
+  </div>
+</form>

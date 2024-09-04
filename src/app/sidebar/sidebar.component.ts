@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterOutlet} from "@angular/router";
+import {RouterLink, RouterOutlet} from "@angular/router";
 import {Role} from "../authorization/role";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
@@ -25,7 +25,8 @@ interface PageGroup{
   imports: [
     RouterOutlet,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
@@ -43,7 +44,7 @@ export class SidebarComponent implements OnInit{
       label: "Employees",
       pages: [
         {label: "View all", allowedRoles: [Role.HR_ADMIN], link: "employees/all"},
-        {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: ""},
+        {label: "Add new", allowedRoles: [Role.HR_ADMIN], link: "employees/new"},
       ],
       allowedRoles: [Role.HR_ADMIN]
     },
@@ -51,7 +52,7 @@ export class SidebarComponent implements OnInit{
       label: "Leaves",
       pages: [
         {label: "Apply", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
-        {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
+        {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: "leaves/my"},
         {label: "View All", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: "leaves/all"},
       ],
       allowedRoles: [Role.MANAGER, Role.HR_ADMIN, Role.EMPLOYEE]
