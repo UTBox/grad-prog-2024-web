@@ -1,6 +1,6 @@
-export enum ButtonType{
+export enum ButtonStyle{
   PRIMARY = "primary",
   DANGER = "danger",
   MINI = "mini",
-  NO_STYLE="no-style"
+  NO_STYLE="no-style",
 }
