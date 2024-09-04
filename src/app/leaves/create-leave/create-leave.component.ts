@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {Router, RouterLink} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {RouterLink} from "@angular/router";
 import LeaveService from "../data/leave.service";
 import {ButtonComponent} from "../../shared/button/button.component";
-import {ButtonType} from "../../shared/button/button-type";
+import {ButtonStyle} from "../../shared/button/button-style";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-create-leave',
@@ -11,41 +12,45 @@ import {ButtonType} from "../../shared/button/button-type";
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    ButtonComponent
+    ButtonComponent,
+    NgIf
   ],
   templateUrl: './create-leave.component.html',
   styleUrl: './create-leave.component.css'
 })
 export class CreateLeaveComponent {
+  public totalLeaveDays = 0;
 
   public createLeaveForm: FormGroup;
 
   constructor(
-    private router: Router,
     private leaveService: LeaveService
   ) {
     this.createLeaveForm = new FormGroup<any>({
-      startDate: new FormControl(),
-      endDate: new FormControl(),
-      reason: new FormControl()
+      startDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null,[Validators.required]),
+      reason: new FormControl('', [Validators.required])
     })
   }
 
   onSubmit() {
+    this.createLeaveForm.markAsTouched();
+
+    if (this.createLeaveForm.valid) {
+      this.createLeave();
+    } else {
+      console.log('Cannot submit invalid form.')
+    }
     console.log('Submit type button click.')
     // this.router.navigate(['']);
-  }
-
-  onBackClick() {
-    console.log('Back button click.')
-    this.router.navigateByUrl('');
   }
 
   public createLeave() {
     const leaveApplication = this.createLeaveForm.value;
 
     this.leaveService.createLeave(leaveApplication)
-      .subscribe({ next: data => {
+      .subscribe({
+        next: () => {
           console.log('success');
         }, error: err => {
           console.log(err);
@@ -53,5 +58,11 @@ export class CreateLeaveComponent {
       })
   }
 
-  protected readonly ButtonType = ButtonType;
+  isInvalidFormInput(controlName: string): boolean {
+    const control = this.createLeaveForm.get(controlName);
+
+    return control ? (control.invalid && control.touched) : false;
+  }
+
+  protected readonly ButtonStyle = ButtonStyle;
 }
