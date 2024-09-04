@@ -1,6 +1,9 @@
 <h2>All Employees</h2>
 
 <main>
+  @if(isLoading){
+    <app-loading-spinner></app-loading-spinner>
+  }
   @if(!isLoading){
     <table>
       <colgroup>
@@ -30,7 +33,7 @@
             <td>{{employee.manager?.firstName}} {{employee.manager?.lastName}}</td>
             <td> <p class="float-right">{{employee.totalLeaves}}</p> </td>
             <td> <p class="float-right">{{employee.availableLeaves}}</p> </td>
-            <td><div class="float-right"><app-button [style]="ButtonStyle.MINI">Edit</app-button></div></td>
+            <td><div class="float-right"><app-button [style]="ButtonStyle.MINI" (clickAction)="onEdit(employee.id)">Edit</app-button></div></td>
           </tr>
         }
       }

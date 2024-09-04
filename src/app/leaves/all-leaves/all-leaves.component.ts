@@ -12,6 +12,7 @@ import {ButtonComponent} from "../../shared/button/button.component";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
 import {Role} from "../../authorization/role";
+import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-all-leaves',
@@ -19,8 +20,9 @@ import {Role} from "../../authorization/role";
   imports: [
     PaginationComponent,
     ButtonComponent,
-    DatePipe
-  ],
+    DatePipe,
+    LoadingSpinnerComponent
+],
   templateUrl: './all-leaves.component.html',
   styleUrl: './all-leaves.component.css'
 })
@@ -29,7 +31,7 @@ export class AllLeavesComponent implements OnInit{
   public leaves!: PageResponse<IManagerialLeave>;
 
   private max = 5
-  public currentPage = 0
+  public currentPage = 1
   public totalPages = 0
 
   public selectedUserRole!:Role
