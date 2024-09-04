@@ -9,6 +9,8 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { ButtonStyle } from '../../shared/button/button-style';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
+import {EmployeeRole} from "../model/employee-role";
+import {IEmployee} from "../model/employee.model";
 
 @Component({
   selector: 'app-all-employees',
@@ -24,7 +26,7 @@ export class AllEmployeesComponent implements OnInit {
   public currentPage = 1;
   public totalPages = 0;
 
-  public employees!: PageResponse<any>;
+  public employees!: PageResponse<IEmployee>;
 
   protected readonly ButtonStyle = ButtonStyle;
 
@@ -39,7 +41,7 @@ export class AllEmployeesComponent implements OnInit {
     this.initializePage();
   }
 
-  onEdit(employeeId: string) {
+  onEdit(employeeId: number) {
     this.router.navigate([`/employees/edit/${employeeId}`]);
   }
 
@@ -77,4 +79,6 @@ export class AllEmployeesComponent implements OnInit {
       this.currentPage = Number(params['page']);
     });
   }
+
+  protected readonly EmployeeRole = EmployeeRole;
 }
