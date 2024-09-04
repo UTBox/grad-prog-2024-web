@@ -12,7 +12,8 @@ import {ButtonType} from "./button-type";
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {
-  @Input() public type!:ButtonType;
+  @Input() public type: 'submit' | 'button' | 'reset' = 'button';
+  @Input() public style!:ButtonType;
   @Input() public isDisabled:boolean = false;
   @Output() clickAction = new EventEmitter()
 
