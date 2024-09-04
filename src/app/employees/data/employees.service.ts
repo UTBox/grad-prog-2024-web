@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import IManager from "../model/manager.model";
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export default class EmployeesService {
     return this.httpClient.get<any>(url);
   }
 
+  getListManagers() {
+    const url: string = `api/v1/list/manager`;
+    return this.httpClient.get<IManager[]>(url);
+  }
 
 }
