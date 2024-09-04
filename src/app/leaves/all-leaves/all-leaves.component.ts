@@ -1,3 +1,4 @@
+import { ButtonStyle } from './../../shared/button/button-style';
 import {Component, OnInit} from '@angular/core';
 import PageResponse from "../../shared/page-response";
 import IManagerialLeave from "../model/managerial-leave.model";
@@ -8,7 +9,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe, Location} from "@angular/common";
 import {PaginationComponent} from "../../shared/pagination/pagination.component";
 import {ButtonComponent} from "../../shared/button/button.component";
-import {ButtonType} from "../../shared/button/button-type";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
 import {Role} from "../../authorization/role";
@@ -34,7 +34,7 @@ export class AllLeavesComponent implements OnInit{
 
   public selectedUserRole!:Role
   private userId!:number
-  protected readonly ButtonType = ButtonType;
+  protected readonly ButtonStyle = ButtonStyle;
 
   constructor(
     private leaveService:LeaveService,

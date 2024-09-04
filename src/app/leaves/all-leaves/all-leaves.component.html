@@ -32,8 +32,8 @@
               <td><p class="text-center">{{row.workDays}}</p></td>
               <td>
                 <div class="actions-cell">
-                  <app-button [type]="ButtonType.MINI" (clickAction)="handleApproveLeave(row.id)" >Approve</app-button>
-                  <app-button [type]="ButtonType.MINI" (clickAction)="handleRejectLeave(row.id)" >Reject</app-button>
+                  <app-button [style]="ButtonStyle.MINI" (clickAction)="handleApproveLeave(row.id)" >Approve</app-button>
+                  <app-button [style]="ButtonStyle.MINI" (clickAction)="handleRejectLeave(row.id)" >Reject</app-button>
                 </div>
               </td>
             </tr>
