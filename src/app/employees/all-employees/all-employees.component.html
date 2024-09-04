@@ -1,6 +1,9 @@
 <h2>All Employees</h2>
 
 <main>
+  @if(isLoading){
+    <app-loading-spinner></app-loading-spinner>
+  }
   @if(!isLoading){
     <table>
       <colgroup>
