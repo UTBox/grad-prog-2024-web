@@ -53,7 +53,7 @@ export class AddEmployeeComponent implements OnInit {
       const employee = this.addEmployeeForm.getRawValue();
       this.employeeService.createEmployee(employee).subscribe({
         next: () => {
-          this.router.navigate(['employees/all'], {queryParams: {page: 1}});
+          this.router.navigate(['employees/all'], { queryParams: { page: 1 } });
         },
         error: (err) => {
           console.log(err);
@@ -62,15 +62,15 @@ export class AddEmployeeComponent implements OnInit {
     }
   }
 
-  private async loadManagers() {
-    this.managers = await lastValueFrom(this.employeeService.getListManagers());
-  }
-
   isFormControlInvalid(controlName: string): boolean | undefined {
     return (
       this.addEmployeeForm.get(controlName)?.invalid &&
       (this.addEmployeeForm.get(controlName)?.dirty ||
         this.addEmployeeForm.get(controlName)?.touched)
     );
+  }
+
+  private async loadManagers() {
+    this.managers = await lastValueFrom(this.employeeService.getListManagers());
   }
 }
