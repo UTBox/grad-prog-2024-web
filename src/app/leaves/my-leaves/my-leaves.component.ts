@@ -1,38 +1,37 @@
-import { ButtonStyle } from './../../shared/button/button-style';
 import {Component, OnInit} from '@angular/core';
+import {PaginationComponent} from "../../shared/pagination/pagination.component";
 import PageResponse from "../../shared/page-response";
 import IManagerialLeave from "../model/managerial-leave.model";
-import LeaveService from "../data/leave.service";
+import {Role} from "../../authorization/role";
+import { ButtonStyle } from './../../shared/button/button-style';
 import {lastValueFrom} from "rxjs";
-import {HttpParams} from "@angular/common/http";
+import LeaveService from "../data/leave.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DatePipe, Location} from "@angular/common";
-import {PaginationComponent} from "../../shared/pagination/pagination.component";
+import {HttpParams} from "@angular/common/http";
+import IEmployeeLeaveResponse from "../model/employee-leave-response.model";
 import {ButtonComponent} from "../../shared/button/button.component";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
-import {Role} from "../../authorization/role";
-import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
 
 @Component({
-  selector: 'app-all-leaves',
+  selector: 'app-my-leaves',
   standalone: true,
   imports: [
     PaginationComponent,
-    ButtonComponent,
     DatePipe,
-    LoadingSpinnerComponent
-],
-  templateUrl: './all-leaves.component.html',
-  styleUrl: './all-leaves.component.css'
+    ButtonComponent
+  ],
+  templateUrl: './my-leaves.component.html',
+  styleUrl: './my-leaves.component.css'
 })
-export class AllLeavesComponent implements OnInit{
+export class MyLeavesComponent implements OnInit{
   public isLoading = true
-  public leaves!: PageResponse<IManagerialLeave>;
+  public leaves!: PageResponse<IEmployeeLeaveResponse>;
 
   private max = 5
   public currentPage = 1
-  public totalPages = 0
+  public totalPages = 1
 
   public selectedUserRole!:Role
   private userId!:number
@@ -49,47 +48,19 @@ export class AllLeavesComponent implements OnInit{
     this.initializePage()
   }
 
+  public handleCancelLeave(id:number){
 
-  public handleApproveLeave(id:number){
-    let toUpdate:IUpdateLeaveRequest = {
-      status: "APPROVED"
-    }
-
-    this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
+    this.leaveService.cancelLeave(id).subscribe({next: (data)=>{
       this.initializeData()
-    },error: (err)=>{
+    }, error: (err)=>{
       console.log(err)
-    } })
-  }
-  public handleRejectLeave(id:number){
-    let toUpdate:IUpdateLeaveRequest = {
-      status: "REJECTED"
-    }
-
-    this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
-        this.initializeData()
-      },error: (err)=>{
-        console.log(err)
-      } })
-  }
-
-  public handleChangePage(page:number){
-    this.currentPage = page
-    this.setPageParams(page)
-    this.initializeData()
+    }})
   }
 
   public setPageParams(page: number){
     let params = new HttpParams();
     params = params.append("page", page);
     this.location.go(this.location.path().split('?')[0], params.toString());
-  }
-
-  private async initializePage(){
-    this.initializeSelectedUserData()
-    this.getQueryParams()
-    await this.initializeData()
-    this.isLoading = false
   }
 
   private getQueryParams(){
@@ -102,12 +73,21 @@ export class AllLeavesComponent implements OnInit{
     });
   }
 
+  private async initializePage(){
+    this.initializeSelectedUserData()
+    this.getQueryParams()
+    await this.initializeData()
+    this.isLoading = false
+  }
+
   private async initializeData(){
 
-    let managerId = this.selectedUserRole == Role.MANAGER? this.userId : null
+    let userId = Number(sessionStorage.getItem('userId'))
 
-    this.leaves = await lastValueFrom(this.leaveService.getAllPendingLeaves(this.max, this.currentPage, managerId))
+    this.leaves = await lastValueFrom(this.leaveService.getAllEmployeeLeaves(this.max, this.currentPage, userId))
     this.totalPages = this.leaves.totalPages
+
+    console.log(this.leaves)
     this.isLoading = false
   }
 
@@ -115,4 +95,6 @@ export class AllLeavesComponent implements OnInit{
     this.userId = Number(sessionStorage.getItem('userId'))
     this.selectedUserRole = <Role> sessionStorage.getItem("selectedUserRole")
   }
+
+  protected readonly LeaveStatus = LeaveStatus;
 }

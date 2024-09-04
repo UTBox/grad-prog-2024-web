@@ -8,7 +8,7 @@
     <label for="firstName">First Name</label>
     <input id="firstName" type="text" formControlName="firstName" />
   </div>
-  @if (isFormInvalid('firstName')) {
+  @if (isFormControlInvalid('firstName')) {
   <small class="help-block">First name is required.</small>
   }
 
@@ -16,7 +16,7 @@
     <label for="lastName">Last Name</label>
     <input id="lastName" type="text" formControlName="lastName" />
   </div>
-  @if (isFormInvalid('lastName')) {
+  @if (isFormControlInvalid('lastName')) {
   <small class="help-block">Last name is required.</small>
   }
 
@@ -29,7 +29,7 @@
       }
     </select>
   </div>
-  @if (isFormInvalid('role')) {
+  @if (isFormControlInvalid('role')) {
   <small class="help-block">Role is required.</small>
   }
 
@@ -44,7 +44,7 @@
       }
     </select>
   </div>
-  @if (isFormInvalid('managerId')) {
+  @if (isFormControlInvalid('managerId')) {
   <small class="help-block"> Manager is required. </small>
   }
 
@@ -52,7 +52,7 @@
     <label for="totalLeaves">Total Leaves</label>
     <input id="totalLeaves" type="text" formControlName="totalLeaves" />
   </div>
-  @if (isFormInvalid('totalLeaves')) {
+  @if (isFormControlInvalid('totalLeaves')) {
   <span class="help-block">
     @if(addEmployeeForm.get('totalLeaves')?.hasError('required')){
     <small>Total leaves is required</small>
@@ -64,7 +64,6 @@
 
   <div class="form-actions">
     <app-button
-      [type]="'button'"
       [style]="ButtonStyle.DANGER"
       [routerLink]="'/'"
       >Cancel</app-button

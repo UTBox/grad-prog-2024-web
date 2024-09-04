@@ -4,6 +4,7 @@ import IManagerialLeave from "../model/managerial-leave.model";
 import {Injectable} from "@angular/core";
 import ICreateLeave from "../model/create-leave.model";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
+import IEmployeeLeaveResponse from "../model/employee-leave-response.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,11 @@ export default class LeaveService {
     return this.httpClient.get<PageResponse<IManagerialLeave>>(url);
   }
 
+  getAllEmployeeLeaves(max: number, page:number, employeeId:number){
+    const url = `${this.baseUrl}/employee/${employeeId}`
+    return this.httpClient.get<PageResponse<IEmployeeLeaveResponse>>(url)
+  }
+
   createLeave(
     leaveRequest: ICreateLeave
   ) {
@@ -38,6 +44,11 @@ export default class LeaveService {
   updateLeave(id:number, requestBody:IUpdateLeaveRequest){
     const url = `${this.baseUrl}/${id}`;
     return this.httpClient.put(url, requestBody);
+  }
+
+  cancelLeave(id:number){
+    const url = `${this.baseUrl}/${id}`;
+    return this.httpClient.delete(url);
   }
 }
 
