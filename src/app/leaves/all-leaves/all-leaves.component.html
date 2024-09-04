@@ -1,7 +1,9 @@
 <h2>All Leaves</h2>
 <main>
+  @if(isLoading){
+    <app-loading-spinner></app-loading-spinner>
+  }
     @if(!isLoading){
-
       <table>
         <colgroup>
           <col style="width: 20%"/>
