@@ -6,6 +6,7 @@ import {UserObservable} from "../authorization/observable/user-observable";
 import EmployeesService from "../employees/data/employees.service";
 import {lastValueFrom} from "rxjs";
 import User from "../authorization/user.model";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 interface Page{
   label:string
@@ -26,7 +27,8 @@ interface PageGroup{
     RouterOutlet,
     FormsModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    NgSelectModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
@@ -59,7 +61,7 @@ export class SidebarComponent implements OnInit{
     }
   ]
 
-  public selectedUser = new FormControl<User>(this.defaultUser);
+  public selectedUser!:User
 
   public storedRole!:Role
 
@@ -73,8 +75,9 @@ export class SidebarComponent implements OnInit{
   }
 
   public handleChangeUser(){
-    sessionStorage.setItem('selectedUserRole', this.selectedUser.getRawValue()?.role.toString() ?? "")
-    sessionStorage.setItem('userId', this.selectedUser.getRawValue()?.id.toString() ?? "")
+    console.log(this.selectedUser)
+    sessionStorage.setItem('selectedUserRole', this.selectedUser?.role.toString() ?? "")
+    sessionStorage.setItem('userId', this.selectedUser?.id.toString() ?? "")
 
     console.log(sessionStorage.getItem('selectedUserRole'))
     window.location.reload();
@@ -100,6 +103,6 @@ export class SidebarComponent implements OnInit{
     this.storedRole = <Role> sessionStorage.getItem("selectedUserRole")
     let storedUser = this.users.find(u => u.id === Number(storedUserId))
 
-    this.selectedUser.setValue(storedUser ?? this.defaultUser)
+    this.selectedUser = storedUser ?? this.defaultUser
   }
 }

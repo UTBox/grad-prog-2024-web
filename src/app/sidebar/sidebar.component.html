@@ -1,12 +1,12 @@
 <div class="sidebar-container">
   <div class="user-select-container">
     <label for="user-select">Select user</label>
-    <select id="user-select" [formControl]="selectedUser" (change)="handleChangeUser()">
-      <option [ngValue]="defaultUser" disabled>-- select a user --</option>
-      @for(user of users; track $index){
-        <option [ngValue]="user">{{user.name}} ({{user.role}})</option>
-      }
-    </select>
+      <ng-select class="custom" id="user-select" [(ngModel)]="selectedUser" (change)="handleChangeUser()" >
+        <ng-option [value]="defaultUser" disabled>-- select a user --</ng-option>
+        @for(user of users; track $index){
+          <ng-option [value]="user">{{user.name}} ({{user.role}})</ng-option>
+        }
+      </ng-select>
   </div>
 
   @for(group of pages; track $index){
