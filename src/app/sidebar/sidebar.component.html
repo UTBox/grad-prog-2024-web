@@ -15,7 +15,7 @@
         <h2>{{group.label}}</h2>
         @for(subpage of group.pages; track $index){
           @if(subpage.allowedRoles.includes(storedRole)){
-            <a [href]="subpage.link">{{subpage.label}}</a>
+            <a [routerLink]="subpage.link">{{subpage.label}}</a>
           }
         }
       </div>
