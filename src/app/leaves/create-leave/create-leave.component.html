@@ -15,6 +15,9 @@
   <small class="help-block" *ngIf="isInvalidFormInput('endDate')">
     End date is required.
   </small>
+  <small class="help-block" *ngIf="isInvalidLeaveDates() && !isInvalidFormInput('endDate')">
+    Leave dates set are currently invalid.
+  </small>
 
   <div class="form-group">
     <label for="totalDays">Total Days:</label>
@@ -30,7 +33,7 @@
   </small>
 
   <div class="form-actions">
-    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY" >Apply</app-button>
+    <app-button [isDisabled]="isInvalidLeaveDates() || isInvalidFormInput('reason')" [type]="'submit'" [style]="ButtonStyle.PRIMARY" >Apply</app-button>
     <app-button [style]="ButtonStyle.DANGER" [routerLink]="'/'" >Back</app-button>
   </div>
 </form>

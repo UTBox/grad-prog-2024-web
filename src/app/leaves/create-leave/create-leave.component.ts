@@ -5,6 +5,7 @@ import LeaveService from "../data/leave.service";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {ButtonStyle} from "../../shared/button/button-style";
 import {NgIf} from "@angular/common";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-create-leave',
@@ -18,7 +19,7 @@ import {NgIf} from "@angular/common";
   templateUrl: './create-leave.component.html',
   styleUrl: './create-leave.component.css'
 })
-export class CreateLeaveComponent {
+export class CreateLeaveComponent implements OnInit {
   public totalLeaveDays = 0;
 
   public createLeaveForm: FormGroup;
@@ -27,41 +28,95 @@ export class CreateLeaveComponent {
     private leaveService: LeaveService
   ) {
     this.createLeaveForm = new FormGroup<any>({
+      employeeId: new FormControl(0),
       startDate: new FormControl(null, [Validators.required]),
       endDate: new FormControl(null,[Validators.required]),
       reason: new FormControl('', [Validators.required])
     })
   }
 
+  async ngOnInit() {
+    this.createLeaveForm.valueChanges
+      .pipe(debounceTime(1000))
+      .subscribe(() => {
+        if (this.isDateFormInputsValidated()) {
+          console.log('valid dates triggered');
+          this.calculateLeaveWorkDays();
+        }
+    });
+  }
+
   onSubmit() {
-    this.createLeaveForm.markAsTouched();
+    this.createLeaveForm.markAllAsTouched();
 
     if (this.createLeaveForm.valid) {
       this.createLeave();
     } else {
-      console.log('Cannot submit invalid form.')
+      console.log('Invalid form.')
     }
-    console.log('Submit type button click.')
-    // this.router.navigate(['']);
   }
 
-  public createLeave() {
-    const leaveApplication = this.createLeaveForm.value;
+  public isInvalidFormInput(controlName: string): boolean {
+    const control = this.createLeaveForm.get(controlName);
 
-    this.leaveService.createLeave(leaveApplication)
+    return control ? (control.invalid && (control.touched || control.dirty)) : false;
+  }
+
+  public isInvalidLeaveDates(): boolean {
+    const startDate = new Date(this.createLeaveForm.value.startDate);
+    const endDate = new Date(this.createLeaveForm.value.endDate);
+    const currentDate = new Date();
+
+    if (startDate === null || endDate === null) { return true; }
+    if (startDate > endDate) { return true; }
+
+    return startDate < currentDate;
+  }
+
+  private createLeave() {
+    this.createLeaveForm.patchValue({
+      employeeId: sessionStorage.getItem("userId")
+    })
+
+    const leaveRequest = this.createLeaveForm.value;
+
+    this.leaveService.createLeave(leaveRequest)
       .subscribe({
         next: () => {
           console.log('success');
-        }, error: err => {
-          console.log(err);
+        }, error: response => {
+          console.log(response.error.errorCode);
+          console.log(response.error.errorMessage);
         }
       })
   }
 
-  isInvalidFormInput(controlName: string): boolean {
-    const control = this.createLeaveForm.get(controlName);
+  private isDateFormInputsValidated(): boolean {
+    const startDateValid = this.createLeaveForm.get('startDate')?.valid ?? false;
+    const endDateValid = this.createLeaveForm.get('endDate')?.valid ?? false;
 
-    return control ? (control.invalid && control.touched) : false;
+    return startDateValid && endDateValid;
+  }
+
+  private calculateLeaveWorkDays() {
+    const startDate = new Date(this.createLeaveForm.value.startDate);
+    const endDate = new Date(this.createLeaveForm.value.endDate);
+
+    let leaveWorkDays = 0;
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= endDate) {
+      const dayOfWeek = currentDate.getDay();
+
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        leaveWorkDays++;
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    console.log(leaveWorkDays);
+    this.totalLeaveDays = leaveWorkDays;
   }
 
   protected readonly ButtonStyle = ButtonStyle;
