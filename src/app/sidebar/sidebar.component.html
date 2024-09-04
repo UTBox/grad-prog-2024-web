@@ -1,22 +1,26 @@
 <div class="sidebar-container">
   <div class="user-select-container">
     <label for="user-select">Select user</label>
-    <select id="user-select">
-      <option>Admin</option>
-      <option>Manager</option>
+    <select id="user-select" [formControl]="selectedUser" (change)="handleChangeUser()">
+      <option [ngValue]="defaultUser" disabled>-- select a user --</option>
+      @for(user of users; track $index){
+        <option [ngValue]="user">{{user.name}} ({{user.role}})</option>
+      }
     </select>
   </div>
-  <div class="sidebar-nav-group">
-    <h2>Employees</h2>
-    <a href="">View All</a>
-    <a href="">Add New</a>
-  </div>
-  <div class="sidebar-nav-group">
-    <h2>Leaves</h2>
-    <a routerLink="leaves/create">Apply</a>
-    <a href="">My Leaves</a>
-    <a href="">View All</a>
-  </div>
+
+  @for(group of pages; track $index){
+    @if(group.allowedRoles.includes(storedRole)){
+      <div class="sidebar-nav-group">
+        <h2>{{group.label}}</h2>
+        @for(subpage of group.pages; track $index){
+          @if(subpage.allowedRoles.includes(storedRole)){
+            <a [routerLink]="subpage.link">{{subpage.label}}</a>
+          }
+        }
+      </div>
+    }
+  }
 </div>
 
 <div class="content">

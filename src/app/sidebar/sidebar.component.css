@@ -2,7 +2,7 @@
   width: 30vw;
 }
 .sidebar-container{
-  width: 30vw;
+  width: 20vw;
   background-color: lightgrey;
   height: 98.5vh;
   position: fixed;
@@ -40,5 +40,6 @@
 }
 
 .content{
-  margin-left: 32vw;
+  margin-left: 23vw;
+  padding-top: 2rem;
 }

@@ -1,0 +1,33 @@
+<div class="pagination-container">
+
+  <div class="page-text">
+    Page {{currentPage}} of {{totalPages}}
+  </div>
+
+  <div class="page-buttons">
+    <app-button
+      [style]="ButtonStyle.NO_STYLE"
+      [isDisabled]="isPrevButtonDisabled"
+      (clickAction)="handlePreviousPage()"
+    >
+      Previous
+    </app-button>
+    @for (page of pageNumbers; track page){
+      <app-button
+        [style]="currentPage==page? ButtonStyle.MINI : ButtonStyle.NO_STYLE"
+        (clickAction)="handleChangePage(page)"
+      >
+        {{ page }}
+      </app-button>
+
+    }
+    <app-button
+      [style]="ButtonStyle.NO_STYLE"
+      [isDisabled]="isNextButtonDisabled"
+      (clickAction)="handleNextPage()"
+    >
+      Next
+    </app-button>
+  </div>
+
+</div>

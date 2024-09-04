@@ -1,0 +1,46 @@
+<h2>All Employees</h2>
+
+<main>
+  @if(!isLoading){
+    <table>
+      <colgroup>
+        <col style="width: 10%"/>
+        <col style="width: 20%"/>
+        <col style="width: 20%"/>
+        <col style="width: 15%"/>
+        <col style="width: 15%"/>
+        <col style="width: 10%"/>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Manager</th>
+          <th>Total Leaves</th>
+          <th>Current</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      @if(employees.content.length > 0){
+        @for(employee of employees.content; track employee.id){
+          <tr>
+            <td><p class="float-right">{{employee.id}}</p></td>
+            <td>{{employee.fullName}}</td>
+            <td>{{employee.manager?.firstName}} {{employee.manager?.lastName}}</td>
+            <td> <p class="float-right">{{employee.totalLeaves}}</p> </td>
+            <td> <p class="float-right">{{employee.availableLeaves}}</p> </td>
+            <td><div class="float-right"><app-button [style]="ButtonStyle.MINI">Edit</app-button></div></td>
+          </tr>
+        }
+      }
+      </tbody>
+    </table>
+
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (changePageAction)="handleChangePage($event)"
+    />
+  }
+</main>
