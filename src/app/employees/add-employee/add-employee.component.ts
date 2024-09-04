@@ -24,7 +24,7 @@ export class AddEmployeeComponent implements OnInit {
   protected readonly ButtonStyle = ButtonStyle;
   addEmployeeForm: FormGroup;
   managers: IManager[] = [];
-  roles = Object.values(EmployeeRole);
+  roles = ["MANAGER","EMPLOYEE"];
 
   constructor(
     private router: Router,
