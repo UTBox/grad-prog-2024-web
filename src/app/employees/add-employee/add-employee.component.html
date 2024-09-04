@@ -41,8 +41,14 @@
       formControlName="managerId"
       [typeahead]="managersInput$"
     >
-      @for(manager of managers; track $index){
-        <ng-option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</ng-option>
+      @for(manager of showManagerDependingOnChosenRole(); track $index){
+<!--        @if(addEmployeeForm.getRawValue()['role'] == "EMPLOYEE"){-->
+<!--          @if(manager.role != "HR_ADMIN"){-->
+<!--            <ng-option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</ng-option>-->
+<!--          }-->
+<!--        } @else {-->
+          <ng-option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</ng-option>
+<!--        }-->
       }
     </ng-select>
   </div>

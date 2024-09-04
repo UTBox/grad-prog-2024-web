@@ -1,21 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ButtonComponent} from '../../shared/button/button.component';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import IManager from '../model/manager.model';
-import {
-  debounceTime,
-  lastValueFrom, map,
-  Subject,
-
-} from 'rxjs';
-import { EmployeeRole } from '../model/employee-role';
-import { ButtonStyle } from '../../shared/button/button-style';
+import {debounceTime, lastValueFrom, Subject,} from 'rxjs';
+import {EmployeeRole} from '../model/employee-role';
+import {ButtonStyle} from '../../shared/button/button-style';
 import EmployeesService from '../data/employees.service';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {AsyncPipe, NgClass} from "@angular/common";
@@ -89,7 +79,17 @@ export class AddEmployeeComponent implements OnInit {
       });
   }
 
+  showManagerDependingOnChosenRole(){
+    const role = this.addEmployeeForm.getRawValue()['role']
+    if(role == "EMPLOYEE"){
+      return this.managers.filter(m => m.role != EmployeeRole.HR_ADMIN)
+    }
+    return this.managers
+  }
+
   private async loadManagers(name:string) {
     this.managers = await lastValueFrom(this.employeeService.getListManagers(name));
   }
+
+  protected readonly EmployeeRole = EmployeeRole;
 }
