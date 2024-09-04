@@ -32,8 +32,11 @@ export default class EmployeesService {
     return this.httpClient.get<any>(url);
   }
 
-  getListManagers() {
-    const url: string = `api/v1/list/manager`;
+  getListManagers(name:string) {
+    let url:string = `api/v1/list/manager`;
+    if(name.length>0){
+      url += `?name=${name}`
+    }
     return this.httpClient.get<IManager[]>(url);
   }
 

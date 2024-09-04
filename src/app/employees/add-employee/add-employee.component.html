@@ -35,7 +35,12 @@
 
   <div class="form-group">
     <label for="manager">Manager</label>
-    <ng-select id="manager" [ngClass]="{'invalid':true}" [clearable]="false" formControlName="managerId">
+    <ng-select
+      id="manager"
+      [clearable]="false"
+      formControlName="managerId"
+      [typeahead]="managersInput$"
+    >
       @for(manager of managers; track $index){
         <ng-option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</ng-option>
       }

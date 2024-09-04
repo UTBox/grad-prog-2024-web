@@ -8,17 +8,22 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import IManager from '../model/manager.model';
-import { lastValueFrom } from 'rxjs';
+import {
+  debounceTime,
+  lastValueFrom, map,
+  Subject,
+
+} from 'rxjs';
 import { EmployeeRole } from '../model/employee-role';
 import { ButtonStyle } from '../../shared/button/button-style';
 import EmployeesService from '../data/employees.service';
 import {NgSelectModule} from "@ng-select/ng-select";
-import {NgClass} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-add-employee',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule, RouterLink, NgSelectModule, NgClass],
+  imports: [ButtonComponent, ReactiveFormsModule, RouterLink, NgSelectModule, NgClass, AsyncPipe],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
@@ -27,6 +32,9 @@ export class AddEmployeeComponent implements OnInit {
   addEmployeeForm: FormGroup;
   managers: IManager[] = [];
   roles = ["MANAGER","EMPLOYEE"];
+
+  managersLoading = false;
+  managersInput$ = new Subject<string>();
 
   constructor(
     private router: Router,
@@ -45,11 +53,11 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadManagers();
+    this.loadManagers("");
+    this.loadManagersOptions();
   }
 
   onSubmit() {
-    console.log(this.addEmployeeForm.getRawValue()['managerId'])
     this.addEmployeeForm.markAllAsTouched();
 
     if (this.addEmployeeForm.valid) {
@@ -73,7 +81,15 @@ export class AddEmployeeComponent implements OnInit {
     );
   }
 
-  private async loadManagers() {
-    this.managers = await lastValueFrom(this.employeeService.getListManagers());
+  loadManagersOptions(){
+    this.managersInput$
+      .pipe(debounceTime(400))
+      .subscribe((name) => {
+        this.loadManagers(name??"")
+      });
+  }
+
+  private async loadManagers(name:string) {
+    this.managers = await lastValueFrom(this.employeeService.getListManagers(name));
   }
 }
