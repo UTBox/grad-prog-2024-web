@@ -6,7 +6,7 @@ import EmployeesService from "../data/employees.service";
 import PageResponse from "../../shared/page-response";
 import {lastValueFrom} from "rxjs";
 import {ButtonComponent} from "../../shared/button/button.component";
-import {ButtonType} from "../../shared/button/button-type";
+import {ButtonStyle} from "../../shared/button/button-style";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -28,7 +28,7 @@ export class AllEmployeesComponent implements OnInit{
 
   public employees!:PageResponse<any>
 
-  protected readonly ButtonType = ButtonType;
+  protected readonly ButtonStyle = ButtonStyle;
 
 
   constructor(
