@@ -1,0 +1,27 @@
+<div>
+  <h2>Apply for Leave</h2>
+</div>
+<div class="form-div">
+  <form [formGroup]="createLeaveForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" type="date" formControlName="startDate">
+    </div>
+    <div class="form-group">
+      <label for="endDate">End Date:</label>
+      <input id="endDate" type="date" formControlName="endDate">
+    </div>
+    <div class="form-group">
+      <label for="totalDays">Total Days:</label>
+      <p id="totalDays"></p>
+    </div>
+    <div class="form-group">
+      <label for="reason">Reason:</label>
+      <input id="reason" type="text" formControlName="reason">
+    </div>
+    <div>
+      <app-button [class]="ButtonType.PRIMARY" [type]="'submit'">Apply</app-button>
+      <app-button [class]="ButtonType.DANGER" (click)="onBackClick()">Back</app-button>
+    </div>
+  </form>
+</div>
