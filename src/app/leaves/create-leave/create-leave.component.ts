@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import LeaveService from "../data/leave.service";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {ButtonStyle} from "../../shared/button/button-style";
@@ -25,6 +25,7 @@ export class CreateLeaveComponent implements OnInit {
   public createLeaveForm: FormGroup;
 
   constructor(
+    private router: Router,
     private leaveService: LeaveService
   ) {
     this.createLeaveForm = new FormGroup<any>({
@@ -40,7 +41,6 @@ export class CreateLeaveComponent implements OnInit {
       .pipe(debounceTime(1000))
       .subscribe(() => {
         if (this.isDateFormInputsValidated()) {
-          console.log('valid dates triggered');
           this.calculateLeaveWorkDays();
         }
     });
@@ -67,6 +67,7 @@ export class CreateLeaveComponent implements OnInit {
     const endDate = new Date(this.createLeaveForm.value.endDate);
     const currentDate = new Date();
 
+    if (this.totalLeaveDays === 0) { return true; }
     if (startDate === null || endDate === null) { return true; }
     if (startDate > endDate) { return true; }
 
@@ -84,6 +85,7 @@ export class CreateLeaveComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log('success');
+          this.router.navigate(['leaves/my'])
         }, error: response => {
           console.log(response.error.errorCode);
           console.log(response.error.errorMessage);
@@ -115,7 +117,6 @@ export class CreateLeaveComponent implements OnInit {
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    console.log(leaveWorkDays);
     this.totalLeaveDays = leaveWorkDays;
   }
 
