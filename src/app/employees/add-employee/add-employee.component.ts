@@ -53,7 +53,7 @@ export class AddEmployeeComponent implements OnInit {
       const employee = this.addEmployeeForm.getRawValue();
       this.employeeService.createEmployee(employee).subscribe({
         next: () => {
-          this.router.navigate(['employees']);
+          this.router.navigate(['employees/all'], {queryParams: {page: 1}});
         },
         error: (err) => {
           console.log(err);
