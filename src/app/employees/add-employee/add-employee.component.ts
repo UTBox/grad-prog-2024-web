@@ -66,7 +66,7 @@ export class AddEmployeeComponent implements OnInit {
     this.managers = await lastValueFrom(this.employeeService.getListManagers());
   }
 
-  isFormInvalid(controlName: string): boolean | undefined {
+  isFormControlInvalid(controlName: string): boolean | undefined {
     return (
       this.addEmployeeForm.get(controlName)?.invalid &&
       (this.addEmployeeForm.get(controlName)?.dirty ||
