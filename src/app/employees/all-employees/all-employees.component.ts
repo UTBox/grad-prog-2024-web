@@ -7,7 +7,7 @@ import PageResponse from "../../shared/page-response";
 import {lastValueFrom} from "rxjs";
 import {ButtonComponent} from "../../shared/button/button.component";
 import {ButtonStyle} from "../../shared/button/button-style";
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-employees',
@@ -32,13 +32,16 @@ export class AllEmployeesComponent implements OnInit{
 
 
   constructor(
-    private employeesService:EmployeesService,
-    private location:Location,
-    private route: ActivatedRoute
+    private employeesService: EmployeesService,
+    private location: Location,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.initializePage()
+  onEdit(employeeId: string) {
+    this.router.navigate([`/employees/edit/${employeeId}`]);
   }
 
   public handleChangePage(page:number){
