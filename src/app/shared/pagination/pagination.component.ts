@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {ButtonComponent} from "../button/button.component";
-import {ButtonType} from "../button/button-type";
+import {ButtonStyle} from "../button/button-style";
 
 @Component({
   selector: 'app-pagination',
@@ -12,7 +12,7 @@ import {ButtonType} from "../button/button-type";
   styleUrl: './pagination.component.css'
 })
 export class PaginationComponent implements OnChanges{
-  protected readonly ButtonType = ButtonType;
+  protected readonly ButtonStyle = ButtonStyle;
 
   @Input({required: true}) currentPage = 1
   @Input({required: true}) totalPages = 1

@@ -1,7 +1,9 @@
 <button
-  [ngClass]="type.toString()"
+  [type]="type"
+  [ngClass]="style.toString()"
   [disabled]="isDisabled"
   (click)="onClick()"
+  [routerLink]="routerLink"
 >
   <ng-content></ng-content>
 </button>

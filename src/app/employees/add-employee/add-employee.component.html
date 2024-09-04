@@ -1,0 +1,76 @@
+<form
+  class="employee-form"
+  [formGroup]="addEmployeeForm"
+  (ngSubmit)="onSubmit()"
+>
+  <h2>Add Employee</h2>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input id="firstName" type="text" formControlName="firstName" />
+  </div>
+  @if (isFormInvalid('firstName')) {
+  <small class="help-block">First name is required.</small>
+  }
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" type="text" formControlName="lastName" />
+  </div>
+  @if (isFormInvalid('lastName')) {
+  <small class="help-block">Last name is required.</small>
+  }
+
+  <div class="form-group">
+    <label for="role">Role</label>
+    <select id="role" formControlName="role">
+      <option value="" disabled>Select role</option>
+      @for (role of roles; track $index) {
+      <option value="{{ role }}">{{ role }}</option>
+      }
+    </select>
+  </div>
+  @if (isFormInvalid('role')) {
+  <small class="help-block">Role is required.</small>
+  }
+
+  <div class="form-group">
+    <label for="manager">Manager</label>
+    <select id="manager" formControlName="managerId">
+      <option value="" disabled>Select a Manager</option>
+      @for (manager of managers; track $index) {
+      <option value="{{ manager.id }}">
+        {{ manager.firstName }} {{ manager.lastName }}
+      </option>
+      }
+    </select>
+  </div>
+  @if (isFormInvalid('managerId')) {
+  <small class="help-block"> Manager is required. </small>
+  }
+
+  <div class="form-group">
+    <label for="totalLeaves">Total Leaves</label>
+    <input id="totalLeaves" type="text" formControlName="totalLeaves" />
+  </div>
+  @if (isFormInvalid('totalLeaves')) {
+  <span class="help-block">
+    @if(addEmployeeForm.get('totalLeaves')?.hasError('required')){
+    <small>Total leaves is required</small>
+    } @if(addEmployeeForm.get('totalLeaves')?.hasError('pattern')){
+    <small>Total leaves must be a positive integer</small>
+    }
+  </span>
+  }
+
+  <div class="form-actions">
+    <app-button
+      [type]="'button'"
+      [style]="ButtonStyle.DANGER"
+      [routerLink]="'/'"
+      >Cancel</app-button
+    >
+    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY"
+      >Submit</app-button
+    >
+  </div>
+</form>
