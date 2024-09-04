@@ -7,6 +7,7 @@ import {Role} from "./authorization/role";
 import {AllLeavesComponent} from "./leaves/all-leaves/all-leaves.component";
 import {AllEmployeesComponent} from "./employees/all-employees/all-employees.component";
 import { AddEmployeeComponent } from './employees/add-employee/add-employee.component';
+import {MyLeavesComponent} from "./leaves/my-leaves/my-leaves.component";
 
 export const routes: Routes = [
   {path: 'unauthorized', component: UnauthorizedComponent},
@@ -24,6 +25,12 @@ export const routes: Routes = [
         component: AllLeavesComponent,
         canActivate: [hasRoleGuard],
         data: {roles: [Role.HR_ADMIN, Role.MANAGER]}
+      },
+      {
+        path: "my",
+        component: MyLeavesComponent,
+        canActivate: [hasRoleGuard],
+        data: {roles: [Role.EMPLOYEE, Role.MANAGER]}
       }
   ]},
   {path: "employees", children: [
