@@ -52,7 +52,7 @@ export class SidebarComponent implements OnInit{
       label: "Leaves",
       pages: [
         {label: "Apply", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
-        {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: ""},
+        {label: "My Leaves", allowedRoles: [Role.MANAGER, Role.EMPLOYEE], link: "leaves/my"},
         {label: "View All", allowedRoles: [Role.MANAGER, Role.HR_ADMIN], link: "leaves/all"},
       ],
       allowedRoles: [Role.MANAGER, Role.HR_ADMIN, Role.EMPLOYEE]
