@@ -12,11 +12,13 @@ import { lastValueFrom } from 'rxjs';
 import { EmployeeRole } from '../model/employee-role';
 import { ButtonStyle } from '../../shared/button/button-style';
 import EmployeesService from '../data/employees.service';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-add-employee',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule, RouterLink],
+  imports: [ButtonComponent, ReactiveFormsModule, RouterLink, NgSelectModule, NgClass],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
@@ -47,6 +49,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.addEmployeeForm.getRawValue()['managerId'])
     this.addEmployeeForm.markAllAsTouched();
 
     if (this.addEmployeeForm.valid) {

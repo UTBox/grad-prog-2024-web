@@ -35,14 +35,11 @@
 
   <div class="form-group">
     <label for="manager">Manager</label>
-    <select id="manager" formControlName="managerId">
-      <option value="" disabled>Select a Manager</option>
-      @for (manager of managers; track $index) {
-      <option value="{{ manager.id }}">
-        {{ manager.firstName }} {{ manager.lastName }}
-      </option>
+    <ng-select id="manager" [ngClass]="{'invalid':true}" [clearable]="false" formControlName="managerId">
+      @for(manager of managers; track $index){
+        <ng-option [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</ng-option>
       }
-    </select>
+    </ng-select>
   </div>
   @if (isFormControlInvalid('managerId')) {
   <small class="help-block"> Manager is required. </small>

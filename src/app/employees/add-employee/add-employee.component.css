@@ -33,12 +33,40 @@
 input.ng-invalid.ng-dirty,
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-dirty,
-select.ng-invalid.ng-touched {
+select.ng-invalid.ng-touched,
+.ng-select.ng-invalid.ng-touched ::ng-deep .ng-select-container{
   border-color: red;
   color: red;
 }
 
+.ng-select{
+  width: 70%;
+}
+.ng-select ::ng-deep .ng-value-label{
+  color: black;
+}
+.ng-select ::ng-deep .ng-input input{
+  height: 2.5rem !important;
+  font-size: small;
+}
+.ng-select ::ng-deep .ng-select-container{
+  height: 2.5rem !important;
+  border-radius: 0.25rem;
+}
+.ng-select.ng-select-opened ::ng-deep >.ng-select-container{
+  outline: none;
+  box-shadow: 0px 0px 5px darkgray;
+  border: 1px solid gray;
+}
+
+
 .help-block {
   color: red;
   margin-left: 11.5rem;
+}
+
+input:focus{
+  outline: none;
+  box-shadow: 0px 0px 5px darkgray;
+  border: 1px solid gray;
 }
