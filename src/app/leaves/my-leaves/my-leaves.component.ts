@@ -14,6 +14,8 @@ import {ButtonComponent} from "../../shared/button/button.component";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
 import User from "../../authorization/user.model";
+import { AlertService } from '../../shared/alert.service';
+import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-my-leaves',
@@ -21,8 +23,9 @@ import User from "../../authorization/user.model";
   imports: [
     PaginationComponent,
     DatePipe,
-    ButtonComponent
-  ],
+    ButtonComponent,
+    LoadingSpinnerComponent
+],
   templateUrl: './my-leaves.component.html',
   styleUrl: './my-leaves.component.css'
 })
@@ -45,6 +48,7 @@ export class MyLeavesComponent implements OnInit{
     private router:Router,
     private route:ActivatedRoute,
     private location:Location,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -53,9 +57,12 @@ export class MyLeavesComponent implements OnInit{
 
   public handleCancelLeave(id:number){
     this.leaveService.cancelLeave(id).subscribe({next: (data)=>{
-      this.initializeData()
+      this.initializeData();
+      this.alertService.showLeaveTransactionToast("cancelled");
+      
     }, error: (err)=>{
       console.log(err)
+      this.alertService.showError(err.error.errorCode, err.error.errorMessage);
     }})
   }
 
