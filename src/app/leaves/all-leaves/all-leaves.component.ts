@@ -13,6 +13,7 @@ import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
 import {Role} from "../../authorization/role";
 import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
+import User from "../../authorization/user.model";
 
 @Component({
   selector: 'app-all-leaves',
@@ -34,8 +35,8 @@ export class AllLeavesComponent implements OnInit{
   public currentPage = 1
   public totalPages = 0
 
+  public selectedUser!:User
   public selectedUserRole!:Role
-  private userId!:number
   protected readonly ButtonStyle = ButtonStyle;
 
   constructor(
@@ -104,7 +105,7 @@ export class AllLeavesComponent implements OnInit{
 
   private async initializeData(){
 
-    let managerId = this.selectedUserRole == Role.MANAGER? this.userId : null
+    let managerId = this.selectedUser.role == Role.MANAGER? this.selectedUser.id : null
 
     this.leaves = await lastValueFrom(this.leaveService.getAllPendingLeaves(this.max, this.currentPage, managerId))
     this.totalPages = this.leaves.totalPages
@@ -112,7 +113,7 @@ export class AllLeavesComponent implements OnInit{
   }
 
   private initializeSelectedUserData(){
-    this.userId = Number(sessionStorage.getItem('userId'))
-    this.selectedUserRole = <Role> sessionStorage.getItem("selectedUserRole")
+    this.selectedUser = JSON.parse(sessionStorage.getItem('selectedUser') ?? "{}")
+    this.selectedUserRole = this.selectedUser.role
   }
 }

@@ -7,7 +7,7 @@
       <table>
         <colgroup>
           <col style="width: 15%"/>
-          @if(selectedUserRole != "MANAGER"){<col style="width: 15%"/>}
+          @if(selectedUser.role != "MANAGER"){<col style="width: 15%"/>}
           <col style="width: 13%"/>
           <col style="width: 13%"/>
           <col style="width: 5%"/>
@@ -17,7 +17,7 @@
         <thead>
           <tr>
             <th>Applied By</th>
-            @if(selectedUserRole != "MANAGER"){<th>Manager</th>}
+            @if(selectedUser.role != "MANAGER"){<th>Manager</th>}
             <th>Start</th>
             <th>End</th>
             <th>Days</th>
@@ -30,7 +30,7 @@
           @for (row of leaves.content; track row.id){
             <tr>
               <td> <b>{{row.employeeName}}</b> </td>
-              @if(selectedUserRole != "MANAGER"){<td>{{row.managerName}}</td>}
+              @if(selectedUser.role != "MANAGER"){<td>{{row.managerName}}</td>}
               <td><p class="text-center">{{row.startDate | date}}</p></td>
               <td><p class="text-center">{{row.endDate | date}}</p></td>
               <td><p class="text-center">{{row.workDays}}</p></td>
@@ -44,7 +44,7 @@
             </tr>
           }
         } @else {
-          <td [colSpan]="selectedUserRole != 'MANAGER'? 6:5">
+          <td [colSpan]="selectedUser.role != 'MANAGER'? 6:5">
             <p class="text-center"> No content </p>
           </td>
         }

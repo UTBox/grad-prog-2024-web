@@ -13,6 +13,7 @@ import IEmployeeLeaveResponse from "../model/employee-leave-response.model";
 import {ButtonComponent} from "../../shared/button/button.component";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
 import {LeaveStatus} from "../leave-status";
+import User from "../../authorization/user.model";
 
 @Component({
   selector: 'app-my-leaves',
@@ -34,7 +35,7 @@ export class MyLeavesComponent implements OnInit{
   public totalPages = 1
 
   public selectedUserRole!:Role
-  private userId!:number
+  private selectedUser!:User
 
   protected readonly ButtonStyle = ButtonStyle;
   protected readonly LeaveStatus = LeaveStatus;
@@ -51,7 +52,6 @@ export class MyLeavesComponent implements OnInit{
   }
 
   public handleCancelLeave(id:number){
-
     this.leaveService.cancelLeave(id).subscribe({next: (data)=>{
       this.initializeData()
     }, error: (err)=>{
@@ -90,7 +90,7 @@ export class MyLeavesComponent implements OnInit{
 
   private async initializeData(){
 
-    let userId = Number(sessionStorage.getItem('userId'))
+    let userId = this.selectedUser.id
 
     this.leaves = await lastValueFrom(this.leaveService.getAllEmployeeLeaves(this.max, this.currentPage, userId))
     this.totalPages = this.leaves.totalPages
@@ -99,7 +99,7 @@ export class MyLeavesComponent implements OnInit{
   }
 
   private initializeSelectedUserData(){
-    this.userId = Number(sessionStorage.getItem('userId'))
-    this.selectedUserRole = <Role> sessionStorage.getItem("selectedUserRole")
+    this.selectedUser = JSON.parse(sessionStorage.getItem('selectedUser') ?? "")
+    this.selectedUserRole = this.selectedUser.role
   }
 }

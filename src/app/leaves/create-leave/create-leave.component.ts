@@ -75,8 +75,9 @@ export class CreateLeaveComponent implements OnInit {
   }
 
   private createLeave() {
+    console.log(JSON.parse(sessionStorage.getItem("selectedUser") ?? ""))
     this.createLeaveForm.patchValue({
-      employeeId: sessionStorage.getItem("userId")
+      employeeId: JSON.parse(sessionStorage.getItem("selectedUser") ?? "").id
     })
 
     const leaveRequest = this.createLeaveForm.value;
