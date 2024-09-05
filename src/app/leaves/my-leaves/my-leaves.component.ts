@@ -35,7 +35,9 @@ export class MyLeavesComponent implements OnInit{
 
   public selectedUserRole!:Role
   private userId!:number
+
   protected readonly ButtonStyle = ButtonStyle;
+  protected readonly LeaveStatus = LeaveStatus;
 
   constructor(
     private leaveService:LeaveService,
@@ -55,6 +57,12 @@ export class MyLeavesComponent implements OnInit{
     }, error: (err)=>{
       console.log(err)
     }})
+  }
+
+  public handleChangePage(page: number) {
+    this.currentPage = page;
+    this.setPageParams(page);
+    this.initializeData();
   }
 
   public setPageParams(page: number){
@@ -86,7 +94,6 @@ export class MyLeavesComponent implements OnInit{
 
     this.leaves = await lastValueFrom(this.leaveService.getAllEmployeeLeaves(this.max, this.currentPage, userId))
     this.totalPages = this.leaves.totalPages
-
     console.log(this.leaves)
     this.isLoading = false
   }
@@ -95,6 +102,4 @@ export class MyLeavesComponent implements OnInit{
     this.userId = Number(sessionStorage.getItem('userId'))
     this.selectedUserRole = <Role> sessionStorage.getItem("selectedUserRole")
   }
-
-  protected readonly LeaveStatus = LeaveStatus;
 }

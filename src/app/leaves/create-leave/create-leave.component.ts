@@ -58,6 +58,10 @@ export class CreateLeaveComponent implements OnInit {
     }
   }
 
+  public isFormInvalid(): boolean {
+    return (this.isInvalidLeaveDates() || this.createLeaveForm.invalid);
+  }
+
   public isInvalidFormInput(controlName: string): boolean {
     const control = this.createLeaveForm.get(controlName);
 
@@ -68,10 +72,21 @@ export class CreateLeaveComponent implements OnInit {
     const startDate = new Date(this.createLeaveForm.value.startDate);
     const endDate = new Date(this.createLeaveForm.value.endDate);
     const currentDate = new Date();
+    const isDateInputsPristine =
+      this.createLeaveForm.get('startDate')?.pristine && this.createLeaveForm.get('endDate')?.pristine
 
-    if (this.totalLeaveDays === 0) { return true; }
-    if (startDate === null || endDate === null) { return true; }
-    if (startDate > endDate) { return true; }
+    if (isDateInputsPristine) {
+      return false;
+    }
+    if (this.totalLeaveDays === 0) {
+      return true;
+    }
+    if (startDate === null || endDate === null) {
+      return true;
+    }
+    if (startDate > endDate) {
+      return true;
+    }
 
     return startDate < currentDate;
   }
