@@ -1,3 +1,4 @@
+import { AlertService } from './../../shared/alert.service';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink} from "@angular/router";
@@ -26,7 +27,8 @@ export class CreateLeaveComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private leaveService: LeaveService
+    private leaveService: LeaveService,
+    private alertService: AlertService
   ) {
     this.createLeaveForm = new FormGroup<any>({
       employeeId: new FormControl(0),
@@ -100,10 +102,12 @@ export class CreateLeaveComponent implements OnInit {
       .subscribe({
         next: () => {
           console.log('success');
-          this.router.navigate(['leaves/my'])
+          this.router.navigate(['leaves/my']);
+          this.alertService.showSuccess("Successfully applied for leave!")
         }, error: response => {
           console.log(response.error.errorCode);
           console.log(response.error.errorMessage);
+          this.alertService.showError(response.error.errorCode, response.error.errorMessage)
         }
       })
   }

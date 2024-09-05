@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {Role} from "../authorization/role";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
@@ -68,7 +68,8 @@ export class SidebarComponent implements OnInit{
 
   constructor(
     private userObservable:UserObservable,
-    private employeesService:EmployeesService
+    private employeesService:EmployeesService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -82,7 +83,9 @@ export class SidebarComponent implements OnInit{
     sessionStorage.setItem('userId', this.selectedUser?.id.toString() ?? "")
 
     console.log(sessionStorage.getItem('selectedUserRole'))
-    window.location.reload();
+    this.router.navigate(['/welcome']).then(() => {
+      window.location.reload();
+    });
   }
 
   private async initializePage(){

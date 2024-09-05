@@ -28,13 +28,13 @@
       @if(employees.content.length > 0){
         @for(employee of employees.content; track employee.id){
           <tr>
-            <td><p class="float-right">{{employee.id}}</p></td>
-            <td>{{employee.fullName}}</td>
-            <td>{{employee.manager?.firstName}} {{employee.manager?.lastName}}</td>
+            <td><p class="text-center">{{employee.id}}</p></td>
+            <td class="text-center">{{employee.fullName}}</td>
+            <td class="text-center">{{employee.manager?.firstName}} {{employee.manager?.lastName}}</td>
             <td> <p class="float-right">{{employee.totalLeaves}}</p> </td>
             <td> <p class="float-right">{{employee.availableLeaves}}</p> </td>
             <td>
-              <div class="float-right">
+              <div class="text-center">
                 <app-button
                   [style]="ButtonStyle.MINI"
                   (clickAction)="onEdit(employee.id)"

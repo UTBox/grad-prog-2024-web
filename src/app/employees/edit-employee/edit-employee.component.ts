@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import EmployeesService from '../data/employees.service';
 import { lastValueFrom } from 'rxjs';
 import { IEmployee } from '../model/employee.model';
+import { AlertService } from '../../shared/alert.service';
 
 @Component({
   selector: 'app-edit-employee',
@@ -27,7 +28,8 @@ export class EditEmployeeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private employeeService: EmployeesService,
-    private router: Router
+    private router: Router,
+    private alertService: AlertService
   ) {
     this.editEmployeeForm = new FormGroup({
       id: new FormControl(),
@@ -55,9 +57,11 @@ export class EditEmployeeComponent implements OnInit {
           this.router.navigate(['/employees/all'], {
             queryParams: { page: 1 },
           });
+          this.alertService.showSuccess("Successfully updated total leaves!");
         },
         error: (err) => {
           console.log(err);
+          this.alertService.showError(err.error.errorCode, err.error.errorMessage);
         },
       });
     }
