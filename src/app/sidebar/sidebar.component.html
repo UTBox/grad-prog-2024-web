@@ -1,8 +1,13 @@
 <div class="sidebar-container">
   <div class="user-select-container">
     <label for="user-select">Select user</label>
-      <ng-select class="custom" id="user-select" [(ngModel)]="selectedUser" (change)="handleChangeUser()" >
-        <ng-option [value]="defaultUser" disabled>-- select a user --</ng-option>
+      <ng-select
+        class="custom"
+        id="user-select"
+        [(ngModel)]="selectedUser"
+        [typeahead]="usersInput$"
+        (change)="handleChangeUser()"
+      >
         @for(user of users; track $index){
           <ng-option [value]="user">{{user.name}} ({{user.role}})</ng-option>
         }
