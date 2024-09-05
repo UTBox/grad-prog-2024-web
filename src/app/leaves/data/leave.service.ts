@@ -30,7 +30,7 @@ export default class LeaveService {
   }
 
   getAllEmployeeLeaves(max: number, page:number, employeeId:number){
-    const url = `${this.baseUrl}/employee/${employeeId}`
+    const url = `${this.baseUrl}/employee/${employeeId}?max=${max}&page=${page}`
     return this.httpClient.get<PageResponse<IEmployeeLeaveResponse>>(url)
   }
 
