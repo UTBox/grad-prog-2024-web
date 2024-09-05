@@ -76,7 +76,7 @@
       [routerLink]="'/'"
       >Cancel</app-button
     >
-    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY"
+    <app-button [isDisabled]="addEmployeeForm.invalid" [type]="'submit'" [style]="ButtonStyle.PRIMARY"
       >Submit</app-button
     >
   </div>
