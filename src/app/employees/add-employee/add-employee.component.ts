@@ -1,22 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ButtonComponent } from '../../shared/button/button.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ButtonComponent} from '../../shared/button/button.component';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import IManager from '../model/manager.model';
-import { lastValueFrom } from 'rxjs';
-import { EmployeeRole } from '../model/employee-role';
-import { ButtonStyle } from '../../shared/button/button-style';
+import {debounceTime, lastValueFrom, Subject,} from 'rxjs';
+import {EmployeeRole} from '../model/employee-role';
+import {ButtonStyle} from '../../shared/button/button-style';
 import EmployeesService from '../data/employees.service';
+import {NgSelectModule} from "@ng-select/ng-select";
+import {AsyncPipe, NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-add-employee',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule, RouterLink],
+  imports: [ButtonComponent, ReactiveFormsModule, RouterLink, NgSelectModule, NgClass, AsyncPipe],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
@@ -25,6 +22,9 @@ export class AddEmployeeComponent implements OnInit {
   addEmployeeForm: FormGroup;
   managers: IManager[] = [];
   roles = ["MANAGER","EMPLOYEE"];
+
+  managersLoading = false;
+  managersInput$ = new Subject<string>();
 
   constructor(
     private router: Router,
@@ -43,7 +43,8 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadManagers();
+    this.loadManagers("");
+    this.loadManagersOptions();
   }
 
   onSubmit() {
@@ -70,7 +71,25 @@ export class AddEmployeeComponent implements OnInit {
     );
   }
 
-  private async loadManagers() {
-    this.managers = await lastValueFrom(this.employeeService.getListManagers());
+  loadManagersOptions(){
+    this.managersInput$
+      .pipe(debounceTime(400))
+      .subscribe((name) => {
+        this.loadManagers(name??"")
+      });
   }
+
+  showManagerDependingOnChosenRole(){
+    const role = this.addEmployeeForm.getRawValue()['role']
+    if(role == "EMPLOYEE"){
+      return this.managers.filter(m => m.role != EmployeeRole.HR_ADMIN)
+    }
+    return this.managers
+  }
+
+  private async loadManagers(name:string) {
+    this.managers = await lastValueFrom(this.employeeService.getListManagers(name));
+  }
+
+  protected readonly EmployeeRole = EmployeeRole;
 }
