@@ -7,6 +7,7 @@
         [(ngModel)]="selectedUser"
         [typeahead]="usersInput$"
         (change)="handleChangeUser()"
+        (open)="initializeUserList('')"
       >
         @for(user of users; track $index){
           <ng-option [value]="user">{{user.name}} ({{user.role}})</ng-option>
@@ -15,11 +16,11 @@
   </div>
 
   @for(group of pages; track $index){
-    @if(group.allowedRoles.includes(storedRole)){
+    @if(group.allowedRoles.includes(selectedUserRole)){
       <div class="sidebar-nav-group">
         <h2>{{group.label}}</h2>
         @for(subpage of group.pages; track $index){
-          @if(subpage.allowedRoles.includes(storedRole)){
+          @if(subpage.allowedRoles.includes(selectedUserRole)){
             <a [routerLink]="subpage.link">{{subpage.label}}</a>
           }
         }

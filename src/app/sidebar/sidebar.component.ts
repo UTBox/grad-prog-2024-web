@@ -63,8 +63,8 @@ export class SidebarComponent implements OnInit{
   ]
 
   public selectedUser!:User
+  public selectedUserRole!:Role
 
-  public storedRole!:Role
 
   constructor(
     private userObservable:UserObservable,
@@ -78,11 +78,7 @@ export class SidebarComponent implements OnInit{
   }
 
   public handleChangeUser(){
-    console.log(this.selectedUser)
-    sessionStorage.setItem('selectedUserRole', this.selectedUser?.role.toString() ?? "")
-    sessionStorage.setItem('userId', this.selectedUser?.id.toString() ?? "")
-
-    console.log(sessionStorage.getItem('selectedUserRole'))
+    sessionStorage.setItem('selectedUser', JSON.stringify(this.selectedUser))
     this.router.navigate(['/welcome']).then(() => {
       window.location.reload();
     });
@@ -101,21 +97,35 @@ export class SidebarComponent implements OnInit{
       })
   }
 
-  private async initializeUserList(name: string){
+  public async initializeUserList(name: string){
     const userListResponse = await lastValueFrom(this.employeesService.getEmployeeList(name))
-    this.users = JSON.parse(sessionStorage.getItem('users') ?? "[]")
 
     if(userListResponse != this.users){
       this.users = userListResponse
-      sessionStorage.setItem('users', JSON.stringify(this.users))
+    }
+
+    if( name == "" && this.selectedUser && this.users.findIndex(u => u.id == this.selectedUser.id) == -1){
+      this.users.push(this.selectedUser)
     }
   }
 
   private initializeSelectedUser(){
-    let storedUserId = sessionStorage.getItem("userId")
-    this.storedRole = <Role> sessionStorage.getItem("selectedUserRole")
-    let storedUser = this.users.find(u => u.id === Number(storedUserId))
+    let storedUser:User = JSON.parse(sessionStorage.getItem('selectedUser')??"{}")
 
-    this.selectedUser = storedUser ?? this.defaultUser
+    if(Object.keys(storedUser).length == 0){
+      this.selectedUser = this.defaultUser
+      this.selectedUserRole = storedUser.role
+      return
+    }
+
+    let userInUserList = this.users.find(u => u.id==storedUser.id)
+
+    if(!userInUserList){
+      this.users.push(storedUser)
+      userInUserList = this.users.at(-1)
+    }
+
+    this.selectedUser = userInUserList ?? this.defaultUser
+    this.selectedUserRole = storedUser.role
   }
 }
