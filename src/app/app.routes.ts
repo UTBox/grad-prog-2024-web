@@ -12,12 +12,13 @@ import {CreateLeaveComponent} from "./leaves/create-leave/create-leave.component
 
 export const routes: Routes = [
   {path: 'unauthorized', component: UnauthorizedComponent},
+  {path: '', redirectTo: 'welcome', pathMatch: 'full'},
   {
     path: "welcome",
     component: WelcomeComponent,
     canActivate: [hasRoleGuard],
     data: {
-      roles: [Role.HR_ADMIN]
+      roles: [Role.HR_ADMIN, Role.MANAGER, Role.EMPLOYEE]
     }
   },
   {path: "leaves", children: [
