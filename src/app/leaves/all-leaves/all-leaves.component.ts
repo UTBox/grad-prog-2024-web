@@ -10,9 +10,9 @@ import {DatePipe, Location} from "@angular/common";
 import {PaginationComponent} from "../../shared/pagination/pagination.component";
 import {ButtonComponent} from "../../shared/button/button.component";
 import IUpdateLeaveRequest from "../model/update-leave-request.model";
-import {LeaveStatus} from "../leave-status";
 import {Role} from "../../authorization/role";
 import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
+import { AlertService } from '../../shared/alert.service';
 
 @Component({
   selector: 'app-all-leaves',
@@ -43,6 +43,7 @@ export class AllLeavesComponent implements OnInit{
     private router:Router,
     private route:ActivatedRoute,
     private location:Location,
+    private alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -56,9 +57,11 @@ export class AllLeavesComponent implements OnInit{
     }
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
-      this.initializeData()
+      this.initializeData();
+      this.alertService.showApprovedLeaveToast();
     },error: (err)=>{
       console.log(err)
+      this.alertService.showError(err.error.errorCode, err.error.errorMessage);
     } })
   }
   public handleRejectLeave(id:number){
@@ -67,9 +70,12 @@ export class AllLeavesComponent implements OnInit{
     }
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
-        this.initializeData()
+        this.initializeData();
+        this.alertService.showRejectedLeaveToast();
+
       },error: (err)=>{
         console.log(err)
+        this.alertService.showError(err.error.errorCode, err.error.errorMessage);
       } })
   }
 
