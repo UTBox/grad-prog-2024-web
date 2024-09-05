@@ -12,7 +12,6 @@ import EmployeesService from '../data/employees.service';
 import { lastValueFrom } from 'rxjs';
 import { IEmployee } from '../model/employee.model';
 import { AlertService } from '../../shared/alert.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-employee',
@@ -62,6 +61,7 @@ export class EditEmployeeComponent implements OnInit {
         },
         error: (err) => {
           console.log(err);
+          this.alertService.showError(err.error.errorCode, err.error.errorMessage);
         },
       });
     }
