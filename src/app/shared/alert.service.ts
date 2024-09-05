@@ -7,9 +7,9 @@ import Swal from 'sweetalert2';
 export class AlertService {
   constructor() {}
 
-  showSuccess(message: string, title: string = 'Success!') {
+  showSuccess(message: string) {
     Swal.fire({
-      title: title,
+      title: 'Success',
       text: message,
       icon: 'success',
       timer: 2000,
@@ -27,22 +27,10 @@ export class AlertService {
     });
   }
 
-  showApprovedLeaveToast() {
+  showLeaveTransactionToast(status: string) {
     Swal.fire({
-      title: "Leave application approved!",
+      title: `Leave application ${status}!`,
       icon: "success",
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-  }
-
-  showRejectedLeaveToast() {
-    Swal.fire({
-      title: "Leave application rejected!",
-      icon: 'success',
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
