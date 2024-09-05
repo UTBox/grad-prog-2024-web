@@ -1,0 +1,39 @@
+<form class="leave-application-form" [formGroup]="createLeaveForm" (ngSubmit)="onSubmit()">
+  <h2>Apply for Leave</h2>
+  <div class="form-group">
+    <label for="startDate">Start Date</label>
+    <input id="startDate" type="date" formControlName="startDate">
+  </div>
+  <small class="help-block" *ngIf="isInvalidFormInput('startDate')">
+    Start date is required.
+  </small>
+
+  <div class="form-group">
+    <label for="endDate">End Date</label>
+    <input id="endDate" type="date" formControlName="endDate">
+  </div>
+  <small class="help-block" *ngIf="isInvalidFormInput('endDate')">
+    End date is required.
+  </small>
+  <small class="help-block" *ngIf="isInvalidLeaveDates() && !isInvalidFormInput('endDate')">
+    Leave dates set are currently invalid.
+  </small>
+
+  <div class="form-group">
+    <label for="totalDays">Total Days:</label>
+    <p id="totalDays">{{totalLeaveDays}}</p>
+  </div>
+
+  <div class="form-group">
+    <label for="reason">Reason:</label>
+    <input id="reason" type="text" formControlName="reason">
+  </div>
+  <small class="help-block" *ngIf="isInvalidFormInput('reason')">
+    Reason is required.
+  </small>
+
+  <div class="form-actions">
+    <app-button [isDisabled]="isInvalidLeaveDates() || isInvalidFormInput('reason')" [type]="'submit'" [style]="ButtonStyle.PRIMARY" >Apply</app-button>
+    <app-button [style]="ButtonStyle.DANGER" [routerLink]="'/'" >Back</app-button>
+  </div>
+</form>

@@ -14,9 +14,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {
-  @Input() type: string = 'button';
-  @Input() style!:ButtonStyle;
-  @Input() isDisabled:boolean = false;
+  @Input() public type: 'submit' | 'button' | 'reset' = 'button';
+  @Input() public style!:ButtonStyle;
+  @Input() public isDisabled:boolean = false;
   @Input() routerLink!: string;
   @Output() clickAction = new EventEmitter()
 
