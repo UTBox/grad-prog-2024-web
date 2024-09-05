@@ -1,6 +1,6 @@
 export enum LeaveStatus{
-  PENDING="Pending",
-  APPROVED="Approved",
-  REJECTED="Rejected",
-  CANCELLED="Cancelled"
+  PENDING="PENDING",
+  APPROVED="APPROVED",
+  REJECTED="REJECTED",
+  CANCELLED="CANCELLED"
 }
