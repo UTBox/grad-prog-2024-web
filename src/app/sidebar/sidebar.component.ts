@@ -103,6 +103,10 @@ export class SidebarComponent implements OnInit{
     if(userListResponse != this.users){
       this.users = userListResponse
     }
+
+    if( name == "" && this.selectedUser && this.users.findIndex(u => u.id == this.selectedUser.id) == -1){
+      this.users.push(this.selectedUser)
+    }
   }
 
   private initializeSelectedUser(){
