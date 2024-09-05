@@ -4,7 +4,7 @@ import {Role} from "../authorization/role";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserObservable} from "../authorization/observable/user-observable";
 import EmployeesService from "../employees/data/employees.service";
-import {lastValueFrom} from "rxjs";
+import {debounceTime, lastValueFrom, Subject} from "rxjs";
 import User from "../authorization/user.model";
 import {NgSelectModule} from "@ng-select/ng-select";
 
@@ -40,6 +40,7 @@ export class SidebarComponent implements OnInit{
       role: Role.NONE
     }
   public users!:User[]
+  usersInput$ = new Subject<string>();
 
   public pages:PageGroup[] = [
     {
@@ -72,6 +73,7 @@ export class SidebarComponent implements OnInit{
 
   ngOnInit() {
     this.initializePage()
+    this.loadUsersOptions()
   }
 
   public handleChangeUser(){
@@ -84,12 +86,20 @@ export class SidebarComponent implements OnInit{
   }
 
   private async initializePage(){
-    await this.initializeUserList()
+    await this.initializeUserList("")
     this.initializeSelectedUser()
   }
 
-  private async initializeUserList(){
-    const userListResponse = await lastValueFrom(this.employeesService.getEmployeeList(null))
+  loadUsersOptions(){
+    this.usersInput$
+      .pipe(debounceTime(400))
+      .subscribe(name => {
+        this.initializeUserList(name)
+      })
+  }
+
+  private async initializeUserList(name: string){
+    const userListResponse = await lastValueFrom(this.employeesService.getEmployeeList(name))
     this.users = JSON.parse(sessionStorage.getItem('users') ?? "[]")
 
     if(userListResponse != this.users){

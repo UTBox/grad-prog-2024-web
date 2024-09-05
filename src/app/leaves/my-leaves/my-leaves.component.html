@@ -48,8 +48,9 @@
       </tbody>
     </table>
     <app-pagination
-      [currentPage]="1"
-      [totalPages]="1"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (changePageAction)="handleChangePage($event)"
     />
   }
 </main>
