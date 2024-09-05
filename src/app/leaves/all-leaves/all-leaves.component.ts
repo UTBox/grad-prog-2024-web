@@ -59,7 +59,7 @@ export class AllLeavesComponent implements OnInit{
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
       this.initializeData();
-      this.alertService.showApprovedLeaveToast();
+      this.alertService.showLeaveTransactionToast("approved");
     },error: (err)=>{
       console.log(err)
       this.alertService.showError(err.error.errorCode, err.error.errorMessage);
@@ -72,7 +72,7 @@ export class AllLeavesComponent implements OnInit{
 
     this.leaveService.updateLeave(id, toUpdate).subscribe({next: (data)=>{
         this.initializeData();
-        this.alertService.showRejectedLeaveToast();
+        this.alertService.showLeaveTransactionToast("rejected");
 
       },error: (err)=>{
         console.log(err)

@@ -21,7 +21,7 @@
         <h2>{{group.label}}</h2>
         @for(subpage of group.pages; track $index){
           @if(subpage.allowedRoles.includes(selectedUserRole)){
-            <a [routerLink]="subpage.link">{{subpage.label}}</a>
+            <a routerLinkActive="active" [routerLink]="subpage.link">{{subpage.label}}</a>
           }
         }
       </div>

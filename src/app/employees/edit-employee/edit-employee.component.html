@@ -44,11 +44,11 @@
   }
 
   <div class="form-actions">
+    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY"
+    >Update</app-button
+  >
     <app-button [style]="ButtonStyle.DANGER" [routerLink]="'/'"
       >Cancel</app-button
-    >
-    <app-button [type]="'submit'" [style]="ButtonStyle.PRIMARY"
-      >Submit</app-button
     >
   </div>
 </form>

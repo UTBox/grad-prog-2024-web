@@ -60,6 +60,14 @@
   margin-bottom: 0.25rem
 }
 
+.sidebar-nav-group a:hover{
+  font-weight: bold;
+}
+
+.sidebar-nav-group a.active{
+  font-weight: bold;
+}
+
 .content{
   margin-left: 23vw;
   padding-top: 2rem;
