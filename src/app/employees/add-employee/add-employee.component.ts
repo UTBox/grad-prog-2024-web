@@ -9,6 +9,7 @@ import {ButtonStyle} from '../../shared/button/button-style';
 import EmployeesService from '../data/employees.service';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {AsyncPipe, NgClass} from "@angular/common";
+import { AlertService } from '../../shared/alert.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -28,7 +29,8 @@ export class AddEmployeeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private employeeService: EmployeesService
+    private employeeService: EmployeesService,
+    private alertService: AlertService
   ) {
     this.addEmployeeForm = new FormGroup<any>({
       firstName: new FormControl(null, [Validators.required]),
@@ -55,9 +57,11 @@ export class AddEmployeeComponent implements OnInit {
       this.employeeService.createEmployee(employee).subscribe({
         next: () => {
           this.router.navigate(['employees/all'], { queryParams: { page: 1 } });
+          this.alertService.showSuccess("Successfully created an employee!")
         },
         error: (err) => {
           console.log(err);
+          this.alertService.showError(err.error.errorCode, err.error.errorMessage);
         },
       });
     }
