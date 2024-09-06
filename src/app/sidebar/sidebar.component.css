@@ -30,6 +30,11 @@
 .ng-select.custom ::ng-deep .ng-arrow-wrapper{
   display: none;
 }
+.ng-select.ng-select-opened ::ng-deep >.ng-select-container{
+  outline: none;
+  box-shadow: 0px 0px 5px darkgray;
+  border: 1px solid gray;
+}
 
 .user-select-container{
   margin-top: 5vh;
