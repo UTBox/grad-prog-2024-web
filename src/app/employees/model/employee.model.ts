@@ -9,5 +9,5 @@ export interface IEmployee{
     role: EmployeeRole,
     totalLeaves: number,
     availableLeaves: number,
-    manager: IManager
+    manager: IManager|null|undefined
 }

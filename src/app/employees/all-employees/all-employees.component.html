@@ -30,7 +30,7 @@
           <tr>
             <td><p class="text-center">{{employee.id}}</p></td>
             <td class="text-center">{{employee.fullName}}</td>
-            <td class="text-center">{{employee.manager?.firstName}} {{employee.manager?.lastName}}</td>
+            <td class="text-center">{{employee?.manager?.firstName}} {{employee?.manager?.lastName}}</td>
             <td> <p class="float-right">{{employee.totalLeaves}}</p> </td>
             <td> <p class="float-right">{{employee.availableLeaves}}</p> </td>
             <td>
