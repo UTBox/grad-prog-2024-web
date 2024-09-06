@@ -1,0 +1,8 @@
+.unauthorized-container{
+  height: 80vh;
+  display: flex;
+}
+
+.unauthorized-container h1{
+  margin: auto;
+}
