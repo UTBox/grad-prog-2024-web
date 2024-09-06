@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SidebarComponent} from "../sidebar/sidebar.component";
+import User from "../authorization/user.model";
 
 @Component({
   selector: 'app-welcome',
@@ -10,6 +11,10 @@ import {SidebarComponent} from "../sidebar/sidebar.component";
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css'
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit{
+  public selectedUser!:User
 
+  ngOnInit() {
+    this.selectedUser = JSON.parse(sessionStorage.getItem('selectedUser') ?? "{}" )
+  }
 }
