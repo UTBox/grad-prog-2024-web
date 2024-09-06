@@ -1,0 +1,15 @@
+.main{
+  display: flex;
+  height: 80vh;
+}
+.welcome-container{
+  margin: auto  ;
+}
+
+.welcome-container p, .welcome-container h3{
+  margin: 0;
+}
+
+.welcome-container h3{
+  font-size: xx-large;
+}

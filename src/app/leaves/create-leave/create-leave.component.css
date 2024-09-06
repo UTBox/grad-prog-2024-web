@@ -45,3 +45,11 @@ select.ng-invalid.ng-touched {
   color: red;
   margin-left: 11.5rem;
 }
+
+input:focus{
+  outline: none;
+  box-shadow: 0px 0px 5px darkgray;
+  border: 1px solid gray;
+}
+
+
