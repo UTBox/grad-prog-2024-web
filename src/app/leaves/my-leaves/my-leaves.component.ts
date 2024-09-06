@@ -33,7 +33,7 @@ export class MyLeavesComponent implements OnInit{
   public isLoading = true
   public leaves!: PageResponse<IEmployeeLeaveResponse>;
 
-  private max = 5
+  private max = 10
   public currentPage = 1
   public totalPages = 1
 
@@ -59,7 +59,7 @@ export class MyLeavesComponent implements OnInit{
     this.leaveService.cancelLeave(id).subscribe({next: (data)=>{
       this.initializeData();
       this.alertService.showLeaveTransactionToast("cancelled");
-      
+
     }, error: (err)=>{
       console.log(err)
       this.alertService.showError(err.error.errorCode, err.error.errorMessage);

@@ -22,7 +22,7 @@ import {IEmployee} from "../model/employee.model";
 export class AllEmployeesComponent implements OnInit {
   public isLoading = true;
 
-  private max = 5;
+  private max = 10;
   public currentPage = 1;
   public totalPages = 0;
 
