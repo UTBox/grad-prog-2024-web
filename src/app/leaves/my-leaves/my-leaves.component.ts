@@ -33,7 +33,7 @@ export class MyLeavesComponent implements OnInit{
   public isLoading = true
   public leaves!: PageResponse<IEmployeeLeaveResponse>;
 
-  private max = 10
+  private max = 5
   public currentPage = 1
   public totalPages = 1
 

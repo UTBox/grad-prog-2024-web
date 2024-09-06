@@ -31,7 +31,7 @@ export class AllLeavesComponent implements OnInit{
   public isLoading = true
   public leaves!: PageResponse<IManagerialLeave>;
 
-  private max = 10
+  private max = 5
   public currentPage = 1
   public totalPages = 0
 
